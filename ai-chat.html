@@ -1,268 +1,271 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoho AI Assistant</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .chat-container { max-width: 800px; margin: 0 auto; }
+        .message { margin: 10px 0; padding: 10px; border-radius: 8px; }
+        .user { background: #e3f2fd; text-align: left; }
+        .bot { background: #f3e5f5; text-align: right; }
+        input { width: 100%; padding: 10px; margin: 10px 0; }
+        button { padding: 10px 20px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h2>مساعد Zoho الذكي</h2>
+        <div id="chatMessages"></div>
+        <input type="text" id="userInput" placeholder="اكتب سؤالك هنا...">
+        <button onclick="sendMessage()">إرسال</button>
+    </div>
+
 <script>
-  // ==========================================
-// Enhanced AI Response System - Compatible Version
+// ==========================================
+// Enhanced AI Response System
 // ==========================================
 
-// Comprehensive Knowledge Base
-const ZOHO_KNOWLEDGE = {
-    apps: {
-        crm: {
-            name: "Zoho CRM",
-            nameAr: "إدارة علاقات العملاء",
-            description: "نظام متكامل لإدارة المبيعات والتسويق وخدمة العملاء",
-            pricing: { standard: 840, professional: 1680, enterprise: 2520 },
-            bestFor: ["فرق المبيعات", "التسويق", "خدمة العملاء", "الإدارة"],
-            keyMetrics: ["زيادة المبيعات 25-30%", "توفير 15 ساعة أسبوعياً", "تحسين رضا العملاء 40%"],
-            integration: ["كل تطبيقات Zoho", "Gmail/Outlook", "منصات التواصل", "أنظمة الدفع"]
-        },
-        inventory: {
-            name: "Zoho Inventory",
-            nameAr: "إدارة المخزون",
-            description: "حل متكامل لإدارة المخزون والمستودعات وسلاسل التوريد",
-            pricing: { standard: 700, professional: 1400, enterprise: 2100 },
-            bestFor: ["التجارة الإلكترونية", "التصنيع", "التوزيع", "التجزئة"],
-            keyMetrics: ["تقليل تكاليف المخزون 30%", "تقليل الأخطاء 90%", "زيادة الكفاءة 50%"],
-            integration: ["Zoho Books", "منصات التجارة", "خدمات الشحن", "الموردين"]
-        },
-        books: {
-            name: "Zoho Books",
-            nameAr: "المحاسبة المالية", 
-            description: "نظام محاسبة متكامل لإدارة الفواتير والمصروفات والحسابات",
-            pricing: { standard: 630, professional: 1260, enterprise: 1890 },
-            bestFor: ["المحاسبين", "مديري المالية", "أصحاب الأعمال", "المستقلين"],
-            keyMetrics: ["توفير 20 ساعة أسبوعياً", "تقليل الأخطاء 95%", "امتثال ضريبي 100%"],
-            integration: ["البنوك المصرية", "الهيئة الضريبية", "أنظمة الدفع", "كل تطبيقات Zoho"]
-        },
-        desk: {
-            name: "Zoho Desk",
-            nameAr: "دعم العملاء",
-            description: "منصة متكاملة لدعم العملاء وإدارة التذاكر والشكاوى",
-            pricing: { standard: 560, professional: 1120, enterprise: 2100 },
-            bestFor: ["مراكز الاتصال", "الدعم الفني", "خدمة العملاء", "المبيعات"],
-            keyMetrics: ["تحسين رضا العملاء 45%", "تقليل وقت الاستجابة 60%", "زيادة الإنتاجية 35%"],
-            integration: ["الهاتف", "البريد", "التواصل الاجتماعي", "قاعدة المعرفة"]
-        },
-        workplace: {
-            name: "Zoho Workplace", 
-            nameAr: "منصة التعاون",
-            description: "منصة تعاون شاملة تشمل البريد الإلكتروني والمحادثات وأدوات الإنتاجية",
-            pricing: { standard: 210, professional: 420 },
-            bestFor: ["الفرق الموزعة", "المؤسسات", "الشركات الناشئة", "الإدارات"],
-            keyMetrics: ["زيادة الإنتاجية 35%", "تقليل الاجتماعات 40%", "تحسين التواصل 50%"],
-            integration: ["كل تطبيقات Zoho", "التخزين السحابي", "أدوات Microsoft", "التواصل"]
-        },
-        sites: {
-            name: "Zoho Sites",
-            nameAr: "بناء المواقع",
-            description: "أداة سهلة لإنشاء وإدارة المواقع الإلكترونية الاحترافية",
-            pricing: { standard: 280, professional: 490 },
-            bestFor: ["التسويق", "التجارة الإلكترونية", "الخدمات", "الشركات الناشئة"],
-            keyMetrics: ["توفير وقت التطوير 80%", "لا حاجة لمبرمجين", "SEO محسن", "استضافة آمنة"],
-            integration: ["Zoho Commerce", "Google Analytics", "وسائل الدفع", "التسويق"]
+class ZohoAssistant {
+    constructor() {
+        this.knowledgeBase = {
+            apps: {
+                crm: {
+                    name: "Zoho CRM",
+                    nameAr: "إدارة علاقات العملاء",
+                    description: "نظام متكامل لإدارة المبيعات والتسويق وخدمة العملاء",
+                    pricing: { standard: 840, professional: 1680, enterprise: 2520 },
+                    bestFor: ["فرق المبيعات", "التسويق", "خدمة العملاء", "الإدارة"],
+                    keyMetrics: ["زيادة المبيعات 25-30%", "توفير 15 ساعة أسبوعياً", "تحسين رضا العملاء 40%"],
+                    integration: ["كل تطبيقات Zoho", "Gmail/Outlook", "منصات التواصل", "أنظمة الدفع"]
+                },
+                inventory: {
+                    name: "Zoho Inventory",
+                    nameAr: "إدارة المخزون",
+                    description: "حل متكامل لإدارة المخزون والمستودعات وسلاسل التوريد",
+                    pricing: { standard: 700, professional: 1400, enterprise: 2100 },
+                    bestFor: ["التجارة الإلكترونية", "التصنيع", "التوزيع", "التجزئة"],
+                    keyMetrics: ["تقليل تكاليف المخزون 30%", "تقليل الأخطاء 90%", "زيادة الكفاءة 50%"],
+                    integration: ["Zoho Books", "منصات التجارة", "خدمات الشحن", "الموردين"]
+                },
+                books: {
+                    name: "Zoho Books",
+                    nameAr: "المحاسبة المالية", 
+                    description: "نظام محاسبة متكامل لإدارة الفواتير والمصروفات والحسابات",
+                    pricing: { standard: 630, professional: 1260, enterprise: 1890 },
+                    bestFor: ["المحاسبين", "مديري المالية", "أصحاب الأعمال", "المستقلين"],
+                    keyMetrics: ["توفير 20 ساعة أسبوعياً", "تقليل الأخطاء 95%", "امتثال ضريبي 100%"],
+                    integration: ["البنوك المصرية", "الهيئة الضريبية", "أنظمة الدفع", "كل تطبيقات Zoho"]
+                },
+                desk: {
+                    name: "Zoho Desk",
+                    nameAr: "دعم العملاء",
+                    description: "منصة متكاملة لدعم العملاء وإدارة التذاكر والشكاوى",
+                    pricing: { standard: 560, professional: 1120, enterprise: 2100 },
+                    bestFor: ["مراكز الاتصال", "الدعم الفني", "خدمة العملاء", "المبيعات"],
+                    keyMetrics: ["تحسين رضا العملاء 45%", "تقليل وقت الاستجابة 60%", "زيادة الإنتاجية 35%"],
+                    integration: ["الهاتف", "البريد", "التواصل الاجتماعي", "قاعدة المعرفة"]
+                },
+                workplace: {
+                    name: "Zoho Workplace", 
+                    nameAr: "منصة التعاون",
+                    description: "منصة تعاون شاملة تشمل البريد الإلكتروني والمحادثات وأدوات الإنتاجية",
+                    pricing: { standard: 210, professional: 420 },
+                    bestFor: ["الفرق الموزعة", "المؤسسات", "الشركات الناشئة", "الإدارات"],
+                    keyMetrics: ["زيادة الإنتاجية 35%", "تقليل الاجتماعات 40%", "تحسين التواصل 50%"],
+                    integration: ["كل تطبيقات Zoho", "التخزين السحابي", "أدوات Microsoft", "التواصل"]
+                },
+                sites: {
+                    name: "Zoho Sites",
+                    nameAr: "بناء المواقع",
+                    description: "أداة سهلة لإنشاء وإدارة المواقع الإلكترونية الاحترافية",
+                    pricing: { standard: 280, professional: 490 },
+                    bestFor: ["التسويق", "التجارة الإلكترونية", "الخدمات", "الشركات الناشئة"],
+                    keyMetrics: ["توفير وقت التطوير 80%", "لا حاجة لمبرمجين", "SEO محسن", "استضافة آمنة"],
+                    integration: ["Zoho Commerce", "Google Analytics", "وسائل الدفع", "التسويق"]
+                }
+            },
+            industries: {
+                manufacturing: {
+                    nameAr: "التصنيع",
+                    painPoints: [
+                        "تتبع المواد الخام والمنتجات النهائية",
+                        "تكاليف المخزون المرتفعة", 
+                        "صوامع البيانات بين الإنتاج والمبيعات",
+                        "تأخير في أوامر التصنيع"
+                    ],
+                    recommendedApps: ["inventory", "crm", "books", "workplace"],
+                    successStory: "مصنع أدوات طبية وفر 47% في تكاليف التشغيل وزاد الإنتاجية 35%",
+                    roi: "439% عائد استثمار خلال 6 أشهر"
+                },
+                retail: {
+                    nameAr: "التجارة الإلكترونية والتجزئة",
+                    painPoints: [
+                        "إدارة مخزون متعدد القنوات",
+                        "تكامل المبيعات مع المحاسبة",
+                        "تتبع شحن الطلبات",
+                        "تحليل سلوك العملاء"
+                    ],
+                    recommendedApps: ["inventory", "crm", "books", "sites"],
+                    successStory: "متجر إلكتروني زاد مبيعاته 65% وحسن تجربة العملاء بشكل ملحوظ",
+                    roi: "350% عائد استثمار خلال 4 أشهر"
+                },
+                services: {
+                    nameAr: "الخدمات والاستشارات", 
+                    painPoints: [
+                        "إدارة المشاريع والموارد",
+                        "تتبع وقت الفريق والفواتير",
+                        "التواصل مع العملاء",
+                        "إعداد التقارير المالية"
+                    ],
+                    recommendedApps: ["crm", "books", "workplace", "desk"],
+                    successStory: "شركة استشارات حسنت كفاءة فرقها 40% وقللت وقت الفوترة 70%",
+                    roi: "280% عائد استثمار خلال 3 أشهر"
+                }
+            },
+            competitors: {
+                salesforce: {
+                    comparison: "Zoho أرخص 70% مع نفس المميزات تقريباً",
+                    advantages: ["سعر أقل", "تكامل أفضل", "واجهة أسهل", "دعم عربي"],
+                    priceDiff: "Salesforce يكلف 3-4 أضعاف سعر Zoho"
+                },
+                microsoft: {
+                    comparison: "Zoho أكثر تخصصاً في إدارة الأعمال",
+                    advantages: ["حلول متكاملة", "أسعار شفافة", "لا حاجة لتراخيص إضافية"],
+                    priceDiff: "التكلفة الإجمالية أقل 60%"
+                }
+            }
+        };
+    }
+
+    // Main response generator
+    generateResponse(question) {
+        const q = question.toLowerCase();
+        
+        // Apps overview
+        if (q.includes('تطبيقات') || q.includes('منتجات') || q.includes('برامج')) {
+            return this.generateAppsOverview();
         }
-    },
-    industries: {
-        manufacturing: {
-            nameAr: "التصنيع",
-            painPoints: [
-                "تتبع المواد الخام والمنتجات النهائية",
-                "تكاليف المخزون المرتفعة", 
-                "صوامع البيانات بين الإنتاج والمبيعات",
-                "تأخير في أوامر التصنيع"
-            ],
-            recommendedApps: ["inventory", "crm", "books", "workplace"],
-            successStory: "مصنع أدوات طبية وفر 47% في تكاليف التشغيل وزاد الإنتاجية 35%",
-            roi: "439% عائد استثمار خلال 6 أشهر"
-        },
-        retail: {
-            nameAr: "التجارة الإلكترونية والتجزئة",
-            painPoints: [
-                "إدارة مخزون متعدد القنوات",
-                "تكامل المبيعات مع المحاسبة",
-                "تتبع شحن الطلبات",
-                "تحليل سلوك العملاء"
-            ],
-            recommendedApps: ["inventory", "crm", "books", "sites"],
-            successStory: "متجر إلكتروني زاد مبيعاته 65% وحسن تجربة العملاء بشكل ملحوظ",
-            roi: "350% عائد استثمار خلال 4 أشهر"
-        },
-        services: {
-            nameAr: "الخدمات والاستشارات", 
-            painPoints: [
-                "إدارة المشاريع والموارد",
-                "تتبع وقت الفريق والفواتير",
-                "التواصل مع العملاء",
-                "إعداد التقارير المالية"
-            ],
-            recommendedApps: ["crm", "books", "workplace", "desk"],
-            successStory: "شركة استشارات حسنت كفاءة فرقها 40% وقللت وقت الفوترة 70%",
-            roi: "280% عائد استثمار خلال 3 أشهر"
+        
+        // Pricing
+        if (q.includes('سعر') || q.includes('تكلفة') || q.includes('ثمن') || q.includes('price')) {
+            return this.generatePricingInfo();
         }
-    },
-    competitors: {
-        salesforce: {
-            comparison: "Zoho أرخص 70% مع نفس المميزات تقريباً",
-            advantages: ["سعر أقل", "تكامل أفضل", "واجهة أسهل", "دعم عربي"],
-            priceDiff: "Salesforce يكلف 3-4 أضعاف سعر Zoho"
-        },
-        microsoft: {
-            comparison: "Zoho أكثر تخصصاً في إدارة الأعمال",
-            advantages: ["حلول متكاملة", "أسعار شفافة", "لا حاجة لتراخيص إضافية"],
-            priceDiff: "التكلفة الإجمالية أقل 60%"
+        
+        // Zoho One
+        if (q.includes('zoho one') || q.includes('باقة') || q.includes('شاملة')) {
+            return this.generateZohoOneInfo();
         }
+        
+        // Industry-specific
+        if (q.includes('تصنيع') || q.includes('مصنع')) return this.generateIndustrySolution('manufacturing');
+        if (q.includes('تجزئة') || q.includes('تجارة') || q.includes('ecommerce')) return this.generateIndustrySolution('retail');
+        if (q.includes('خدمات') || q.includes('استشارات')) return this.generateIndustrySolution('services');
+        
+        // Specific apps
+        if (q.includes('crm') || q.includes('علاقات عملاء')) return this.generateAppInfo('crm');
+        if (q.includes('inventory') || q.includes('مخزون')) return this.generateAppInfo('inventory');
+        if (q.includes('books') || q.includes('محاسبة')) return this.generateAppInfo('books');
+        if (q.includes('desk') || q.includes('دعم')) return this.generateAppInfo('desk');
+        if (q.includes('workplace') || q.includes('تعاون')) return this.generateAppInfo('workplace');
+        if (q.includes('sites') || q.includes('موقع')) return this.generateAppInfo('sites');
+        
+        // Competitor comparison
+        if (q.includes('مقارنة') || q.includes('منافس') || q.includes('salesforce')) {
+            return this.generateCompetitorAnalysis();
+        }
+        
+        // Benefits & ROI
+        if (q.includes('فوائد') || q.includes('مميزات') || q.includes('roi') || q.includes('عائد')) {
+            return this.generateBenefitsROI();
+        }
+        
+        // Default welcome
+        return this.generateWelcome();
     }
-};
 
-// ==========================================
-// Enhanced Response Generator - MAIN FUNCTION
-// ==========================================
+    generateAppsOverview() {
+        return `**📱 مجموعة تطبيقات Zoho المتكاملة**
 
-function generateComprehensiveResponse(question) {
-    const q = question.toLowerCase();
-    
-    // 🎯 Apps Overview with Sales Focus
-    if (q.includes('تطبيقات') || q.includes('منتجات') || q.includes('برامج') || q.includes('applications')) {
-        return generateSalesDrivenAppsOverview();
-    }
-    
-    // 💰 Pricing with Value Proposition
-    if (q.includes('سعر') || q.includes('تكلفة') || q.includes('كم') || q.includes('ثمن') || q.includes('price')) {
-        return generateValueBasedPricing();
-    }
-    
-    // 🚀 Zoho One Strategic Analysis
-    if (q.includes('zoho one') || q.includes('باقة') || q.includes('شاملة') || q.includes('package')) {
-        return generateZohoOneStrategy();
-    }
-    
-    // 🏭 Industry-Specific Solutions
-    if (q.includes('تصنيع') || q.includes('مصنع') || q.includes('manufacturing')) return generateIndustrySolution('manufacturing');
-    if (q.includes('تجزئة') || q.includes('تجارة') || q.includes('ecommerce') || q.includes('retail')) return generateIndustrySolution('retail');
-    if (q.includes('خدمات') || q.includes('استشارات') || q.includes('services')) return generateIndustrySolution('services');
-    
-    // 📊 Specific Apps Deep Dive
-    if (q.includes('crm') || q.includes('علاقات عملاء') || q.includes('sales')) return generateAppDeepDive('crm');
-    if (q.includes('inventory') || q.includes('مخزون') || q.includes('stock')) return generateAppDeepDive('inventory');
-    if (q.includes('books') || q.includes('محاسبة') || q.includes('accounting')) return generateAppDeepDive('books');
-    if (q.includes('desk') || q.includes('دعم') || q.includes('support')) return generateAppDeepDive('desk');
-    if (q.includes('workplace') || q.includes('تعاون') || q.includes('collaboration')) return generateAppDeepDive('workplace');
-    if (q.includes('sites') || q.includes('موقع') || q.includes('website')) return generateAppDeepDive('sites');
-    
-    // 🔄 Competitor Comparisons
-    if (q.includes('مقارنة') || q.includes('منافس') || q.includes('salesforce') || q.includes('comparison')) {
-        return generateCompetitiveAnalysis();
-    }
-    
-    // 💡 Benefits & ROI
-    if (q.includes('فوائد') || q.includes('مميزات') || q.includes('roi') || q.includes('عائد') || q.includes('benefits')) {
-        return generateROIBenefits();
-    }
-    
-    // Default: Smart Welcome with Sales Focus
-    return generateSmartWelcome();
-}
-
-// ==========================================
-// Sales-Driven Response Generators
-// ==========================================
-
-function generateSalesDrivenAppsOverview() {
-    return `**📱 مجموعة تطبيقات Zoho المتكاملة - نظرة استراتيجية**
-
-🎯 **التطبيقات الأساسية المدعومة بأدلة نجاح:**
+🎯 **التطبيقات الأساسية:**
 
 **1. Zoho CRM - محرك المبيعات**
-• **السعر:** 840-2,520 جنيه/شهر
-• **النتائج:** زيادة المبيعات 25-30%، توفير 15 ساعة أسبوعياً
-• **نصيحة مبيعات:** "ركز على أتمتة المتابعة مع العملاء - توفر 70% من وقت المندوبين"
+• السعر: 840-2,520 جنيه/شهر
+• النتائج: زيادة المبيعات 25-30%، توفير 15 ساعة أسبوعياً
 
-**2. Zoho Inventory - عقلية المخزون**  
-• **السعر:** 700-2,100 جنيه/شهر
-• **النتائج:** تقليل تكاليف المخزون 30%، تقليل الأخطاء 90%
-• **نصيحة مبيعات:** "شاهد كيف يeliminate الخسائر من المخزون الزائد والمنتهي"
+**2. Zoho Inventory - إدارة المخزون**  
+• السعر: 700-2,100 جنيه/شهر
+• النتائج: تقليل تكاليف المخزون 30%، تقليل الأخطاء 90%
 
-**3. Zoho Books - الشفافية المالية**
-• **السعر:** 630-1,890 جنيه/شهر  
-• **النتائج:** توفير 20 ساعة أسبوعياً، امتثال ضريبي 100%
-• **نصيحة مبيعات:** "اربط المحاسبة بالمبيعات - شاهد الأرباح في الوقت الفعلي"
+**3. Zoho Books - المحاسبة المالية**
+• السعر: 630-1,890 جنيه/شهر  
+• النتائج: توفير 20 ساعة أسبوعياً، امتثال ضريبي 100%
 
-**4. Zoho Desk - ولاء العملاء**
-• **السعر:** 560-2,100 جنيه/شهر
-• **النتائج:** تحسين رضا العملاء 45%، تقليل وقت الاستجابة 60%
-• **نصيحة مبيعات:** "العميل السعيد يعيد الشراء 7 مرات أكثر"
+**4. Zoho Desk - دعم العملاء**
+• السعر: 560-2,100 جنيه/شهر
+• النتائج: تحسين رضا العملاء 45%، تقليل وقت الاستجابة 60%
 
 **5. Zoho Workplace - إنتاجية الفرق**
-• **السعر:** 210-420 جنيه/شهر
-• **النتائج:** زيادة الإنتاجية 35%، تقليل الاجتماعات 40%
-• **نصيحة مبيعات:** "الوقت الذي توفره يترجم مباشرة إلى أرباح"
+• السعر: 210-420 جنيه/شهر
+• النتائج: زيادة الإنتاجية 35%، تقليل الاجتماعات 40%
 
-**6. Zoho Sites - الوجود الرقمي**
-• **السعر:** 280-490 جنيه/شهر
-• **النتائج:** توفير 80% وقت التطوير، تحسين SEO
-• **نصيحة مبيعات:** "كل جنيه على الموقع يحقق 5 جنيه مبيعات"
+**6. Zoho Sites - بناء المواقع**
+• السعر: 280-490 جنيه/شهر
+• النتائج: توفير 80% وقت التطوير، تحسين SEO
 
-💡 **الإستراتيجية الذكية:** 
-"إذا كنت تستخدم تطبيقين أو تفكر في الثالث - Zoho One يوفر 45+ تطبيق بسعر 4,200 جنيه/شهر مع توفير يصل إلى 60%"
+💡 **Zoho One:** كل التطبيقات + 40+ إضافي بـ 4,200 جنيه/شهر
 
-🎯 **أي من هذه التطبيقات يناسب تحدي عملك الحالي؟**`;
-}
+🎯 **أي تطبيق يناسب احتياجك؟**`;
+    }
 
-function generateValueBasedPricing() {
-    return `**💰 فلسفة التسعير - القيمة مقابل السعر**
+    generatePricingInfo() {
+        return `**💰 فلسفة التسعير - القيمة مقابل السعر**
 
-📊 **مقارنة ذكية للتكاليف:**
+📊 **مقارنة التكاليف:**
 
-**الخيار الأول: التطبيقات المنفردة**
+**التطبيقات المنفردة:**
 • CRM + Inventory + Books = 2,170 جنيه/شهر
 • + Workplace + Desk = 3,220 جنيه/شهر  
 • + Sites = 3,700 جنيه/شهر
 
-**الخيار الثاني: Zoho One - 4,200 جنيه/شهر**
-• كل الـ6 تطبيقات السابقة + 40+ تطبيق متقدم
-• **التوفير:** 1,400+ جنيه مع تطبيقات إضافية مجانية
+**Zoho One - 4,200 جنيه/شهر:**
+• كل التطبيقات السابقة + 40+ تطبيق إضافي
+• توفير يصل إلى 60% مع ميزات إضافية
 
-🎯 **تحليل القيمة المضافة:**
+🎯 **تحليل القيمة:**
 
-**للشركات الصغيرة (1-5 موظفين):**
-• "ابدأ بـ 1-2 تطبيق حسب احتياجك الأساسي"
-• "التركيز على التطبيق الذي يحل أكبر مشكلة"
+**الشركات الصغيرة (1-5 موظفين):**
+• ابدأ بـ 1-2 تطبيق حسب الاحتياج الأساسي
 
-**للشركات المتوسطة (6-20 موظفين):**
-• "Zoho One يصبح استثماراً ذكياً عند 3+ تطبيقات"
-• "التكامل بين الأنظمة يوفر 15-25 ساعة أسبوعياً"
+**الشركات المتوسطة (6-20 موظفين):**
+• Zoho One يصبح استثماراً ذكياً عند 3+ تطبيقات
 
-**للشركات الكبيرة (20+ موظفين):**
-• "Zoho One إلزامي للتحكم التام وتقليل التعقيد"
-• "التوفير يصل إلى 60% مع إدارة مركزية"
+**الشركات الكبيرة (20+ موظفين):**
+• Zoho One إلزامي للتحكم التام
 
-💡 **نصائح مبيعات ذهبية:**
-1. "لا تسأل عن السعر، اسأل عن التكلفة الشهرية للعدم الاستثمار في Zoho"
-2. "الوقت الضائع في العمليات اليدوية يكلف 3-5 أضعاف سعر البرنامج"
-3. "Zoho One ليس مصروفاً - إنه استثمار يعود بربح 3-5 أضعاف"
+💡 **نصائح:**
+1. الوقت الضائع في العمليات اليدوية يكلف 3-5 أضعاف سعر البرنامج
+2. Zoho One ليس مصروفاً - بل استثمار يعود بربح 3-5 أضعاف
 
 📈 **سؤال محوري:** "ما هي التكلفة الخفية التي تدفعها الآن للعمليات اليدوية؟"`;
-}
+    }
 
-function generateZohoOneStrategy() {
-    return `**🚀 Zoho One - الإستراتيجية الشاملة لإدارة الأعمال**
+    generateZohoOneInfo() {
+        return `**🚀 Zoho One - النظام الشامل لإدارة الأعمال**
 
-🎯 **ما وراء الباقة السعرية:**
-
-Zoho One ليس مجرد مجموعة تطبيقات - إنه **نظام تشغيل أعمال متكامل** يعيد تعريف كيفية عمل مؤسستك.
-
-**💼 ماذا تحصل بالضبط؟**
-• 45+ تطبيق متكامل (ليست منفصلة)
+🎯 **ماذا تحصل؟**
+• 45+ تطبيق متكامل
 • تكامل سلس لا يحتاج برمجة
 • تحديثات مستمرة مجانية
 • دعم فني مخصص من e& مصر
 • أمان على مستوى المؤسسات
 
 **📈 التحول الاستراتيجي:**
-
 **من:** أنظمة منفصلة → صوامع بيانات → تكاليف خفية
 **إلى:** نظام موحد → رؤية شاملة → توفير مالي
 
-**💰 تحليل مالي متقدم:**
+**💰 تحليل مالي:**
 
 **شركة 10 موظفين تحتاج 4 تطبيقات:**
 • التكلفة المنفصلة: ~23,800 جنيه/شهر
@@ -270,123 +273,122 @@ Zoho One ليس مجرد مجموعة تطبيقات - إنه **نظام تشغ�
 • **الفرق:** +18,200 جنيه لصالح Zoho One مع 40+ تطبيق إضافي
 
 **🎯 متى يكون Zoho One إلزامياً؟**
-
-1. **نموذج العمل المتكامل:** إنتاج ← مبيعات ← محاسبة
-2. **الشركات سريعة النمو:** تحتاج أنظمة تتوسع معها
-3. **الرقمنة الشاملة:** التحول من الورق إلى الرقمي بالكامل
-4. **المنافسة القوية:** تحتاج كل ميزة ممكنة
+1. نموذج العمل المتكامل
+2. الشركات سريعة النمو
+3. الرقمنة الشاملة
+4. المنافسة القوية
 
 💡 **حجة مبيعات قوية:**
 "إذا كنت تدفع لموظف 10,000 جنيه/شهر، وZoho One يوفر له 20 ساعة أسبوعياً، فإنه يدفع ثمن نفسه من شهرين!"
 
 **🤔 سؤال تقييمي:** "ما هي العمليات الثلاث الأكثر استهلاكاً للوقت في مؤسستك؟"`;
-}
+    }
 
-function generateIndustrySolution(industry) {
-    const data = ZOHO_KNOWLEDGE.industries[industry];
-    return `**🏭 حلول ${data.nameAr} - إستراتيجية مخصصة**
+    generateIndustrySolution(industry) {
+        const data = this.knowledgeBase.industries[industry];
+        return `**🏭 حلول ${data.nameAr} - إستراتيجية مخصصة**
 
-🎯 **تحليل التحديات وحلول Zoho:**
+🎯 **التحديات والحلول:**
 
 ${data.painPoints.map((pain, index) => 
-    `**${index + 1}. ${pain}**\n` +
-    `   ✅ ${getIndustrySolutionTip(industry, index)}\n`
-).join('\n')}
+    `**${index + 1}. ${pain}**
+✅ ${this.getIndustrySolutionTip(industry, index)}
+`
+).join('
+')}
 
-**📱 التركيبة المثالية للتطبيقات:**
+**📱 التطبيقات الموصى بها:**
 
 ${data.recommendedApps.map(appKey => {
-    const app = ZOHO_KNOWLEDGE.apps[appKey];
-    return `• **${app.nameAr}:** ${app.description}\n` +
-           `  📊 النتائج: ${app.keyMetrics.join('، ')}`;
-}).join('\n\n')}
+    const app = this.knowledgeBase.apps[appKey];
+    return `• **${app.nameAr}:** ${app.description}
+📊 النتائج: ${app.keyMetrics.join('، ')}`;
+}).join('
+')}
 
-**📈 قصة نجاح واقعية:**
+**📈 قصة نجاح:**
 "${data.successStory}"
 
 **💰 العائد على الاستثمار:**
 • ${data.roi}
 • متوسط توفير وقت: 15-30 ساعة أسبوعياً
-• تحسين الكفاءة: 35-50%
 
-💡 **نصيحة مبيعات للقطاع:**
-"${getIndustrySalesTip(industry)}"
+💡 **نصيحة للقطاع:**
+"${this.getIndustrySalesTip(industry)}"
 
 **🎯 الخطوة التالية:** "أي من هذه التحديات يؤثر على أرباحك حالياً؟"`;
-}
+    }
 
-function generateAppDeepDive(appKey) {
-    const app = ZOHO_KNOWLEDGE.apps[appKey];
-    return `**${app.nameAr} - التحليل الشامل**
+    generateAppInfo(appKey) {
+        const app = this.knowledgeBase.apps[appKey];
+        return `**${app.nameAr} - التحليل الشامل**
 
-🎯 **لماذا ${app.nameAr}؟**
+🎯 **الوصف:**
 ${app.description}
 
-**💪 المميزات الاستراتيجية:**
-${app.keyMetrics.map(metric => `• ${metric}`).join('\n')}
+**💪 المميزات الرئيسية:**
+${app.keyMetrics.map(metric => `• ${metric}`).join('
+')}
 
 **👥 الأنسب لـ:**
-${app.bestFor.map(target => `• ${target}`).join('\n')}
+${app.bestFor.map(target => `• ${target}`).join('
+')}
 
-**🔗 التكامل الذكي:**
-${app.integration.map(integ => `• ${integ}`).join('\n')}
+**🔗 التكامل:**
+${app.integration.map(integ => `• ${integ}`).join('
+')}
 
-**💰 استثمار ذكي:**
+**💰 الأسعار:**
 ${Object.entries(app.pricing).map(([tier, price]) => 
-    `• ${getTierName(tier)}: ${price} جنيه مصري/شهر`
-).join('\n')}
+    `• ${this.getTierName(tier)}: ${price} جنيه/شهر`
+).join('
+')}
 
 **📊 دراسات حالة:**
-
-${getAppCaseStudies(appKey)}
+${this.getAppCaseStudies(appKey)}
 
 💡 **نصيحة تطبيقية:**
-"${getAppImplementationTip(appKey)}"
+"${this.getAppImplementationTip(appKey)}"
 
 **🎯 سؤال تقييمي:** "كيف تدار ${app.nameAr.split(' ')[0]} حالياً في مؤسستك؟"`;
-}
+    }
 
-function generateCompetitiveAnalysis() {
-    return `**📊 Zoho vs المنافسين - مقارنة شاملة**
+    generateCompetitorAnalysis() {
+        return `**📊 Zoho vs المنافسين - مقارنة شاملة**
 
 🎯 **لماذا Zoho هو الخيار الأمثل للسوق المصري؟**
 
 **🆚 Zoho vs Salesforce:**
-• **السعر:** Zoho أرخص 70% لنفس المميزات
-• **التكامل:** Zoho أكثر سلاسة بين التطبيقات
-• **الدعم:** Zoho دعم عربي مخصص من e& مصر
-• **المرونة:** Zoho ينمو معك دون تكاليف مفاجئة
+• السعر: Zoho أرخص 70% لنفس المميزات
+• التكامل: Zoho أكثر سلاسة
+• الدعم: Zoho دعم عربي مخصص
+• المرونة: Zoho ينمو معك دون تكاليف مفاجئة
 
 **🆚 Zoho vs Microsoft Dynamics:**
-• **البساطة:** Zoho أسهل في التنفيذ والاستخدام
-• **التكلفة:** لا حاجة لتراخيص Windows إضافية
-• **التخصص:** Zoho مصمم خصيصاً لإدارة الأعمال
-
-**🆚 Zoho vs الحلول المحلية:**
-• **الجودة:** معايير عالمية مع محلية في التنفيذ
-• **الأمان:** بنية تحتية على مستوى المؤسسات
-• **التطوير:** تحديثات مستمرة بميزات جديدة
+• البساطة: Zoho أسهل في التنفيذ
+• التكلفة: لا حاجة لتراخيص إضافية
+• التخصص: Zoho مصمم خصيصاً لإدارة الأعمال
 
 **💡 حجج مبيعات قوية:**
 
 1. **حجة السعر:** "بدلاً من دفع 10,000 جنيه لتطبيق واحد، احصل على 45 تطبيق بـ 4,200 جنيه"
 
-2. **حجة التكامل:** "لماذا تدفع لمبرمجين للتكامل بين الأنظمة عندما يأتي Zoho متكاملاً؟"
+2. **حجة التكامل:** "لماذا تدفع لمبرمجين للتكامل عندما يأتي Zoho متكاملاً؟"
 
-3. **حجة النمو:** "ابدأ صغيراً وتوسع دون تغيير النظام - وفر على نفسك عناء الهجرة التقنية"
+3. **حجة النمو:** "ابدأ صغيراً وتوسع دون تغيير النظام"
 
 **📈 واقع السوق المصري:**
-• 85% من الشركات التي تختار Zoho تبقى معه بعد 3 سنوات
-• متوسط توفير 45% في تكاليف البرامج بعد التحول لـ Zoho
-• 92% رضا عن الدعم الفني المقدم من e& مصر
+• 85% من الشركات تبقى مع Zoho بعد 3 سنوات
+• متوسط توفير 45% في تكاليف البرامج
+• 92% رضا عن الدعم الفني
 
 🎯 **سؤال تقييمي:** "ما هي أكبر 3 مشاكل تواجهها مع نظامك الحالي؟"`;
-}
+    }
 
-function generateROIBenefits() {
-    return `**📈 العائد على الاستثمار - من مصروف إلى ربح**
+    generateBenefitsROI() {
+        return `**📈 العائد على الاستثمار - من مصروف إلى ربح**
 
-🎯 **Zoho ليس تكلفة - إنه استثمار يعود بأرباح مضاعفة**
+🎯 **Zoho ليس تكلفة - بل استثمار يعود بأرباح مضاعفة**
 
 **💰 تحليل العائد المالي:**
 
@@ -398,7 +400,7 @@ function generateROIBenefits() {
 **الإيرادات الإضافية:**
 • زيادة المبيعات: 25-45% نمو
 • تحسين رضا العملاء: 40% زيادة في الولاء
-• قرارات أفضل: بيانات آنية للتحليل
+• قرارات أفضل: بيانات آنية
 
 **📊 أمثلة عملية:**
 
@@ -413,30 +415,29 @@ function generateROIBenefits() {
 • **صافي ربح: +41,600 جنيه/شهر**
 
 **💡 فلسفة الاستثمار:**
-
 "Zoho يحول الوقت الضائع إلى أرباح، والأخطاء إلى دقة، والتخمين إلى يقين"
 
 🎯 **سؤال تقييمي:** "كم ساعة أسبوعياً يضيع فريقك في مهام يمكن أتمتتها؟"`;
-}
+    }
 
-function generateSmartWelcome() {
-    return `**🤖 مساعد Zoho الذكي - e& مصر**
+    generateWelcome() {
+        return `**🤖 مساعد Zoho الذكي - e& مصر**
 
-🎯 **مرحباً! أنا هنا لأقدم لك تحليلات شاملة ونصائح مبيعات ذكية عن Zoho**
+🎯 **مرحباً! أنا هنا لأقدم تحليلات شاملة عن Zoho**
 
 📊 **ما يمكنني مساعدتك فيه:**
 
-**🎪 معلومات تطبيقية شاملة:**
-• تحليل مفصل لكل تطبيق مع نتائج حقيقية
+**🎪 معلومات تطبيقية:**
+• تحليل مفصل لكل تطبيق
 • مقارنات أسعار واستراتيجيات توفير
-• دراسات حالة ونجاحات عملاء
+• دراسات حالة ونجاحات العملاء
 
-**💼 نصائح مبيعات عملية:**
-• حجج مبيعات قوية لكل سيناريو
+**💼 نصائح عملية:**
+• حجج مبيعات قوية
 • تحليل العائد على الاستثمار
-• استراتيجيات البيع حسب القطاع
+• استراتيجيات حسب القطاع
 
-**🏭 حلول قطاعية مخصصة:**
+**🏭 حلول قطاعية:**
 • قطاع التصنيع والمصانع
 • التجارة الإلكترونية والتجزئة  
 • قطاع الخدمات والاستشارات
@@ -444,117 +445,142 @@ function generateSmartWelcome() {
 **📈 مقارنات تنافسية:**
 • Zoho vs Salesforce vs Microsoft
 • تحليل القيمة مقابل السعر
-• مميزات Zoho الفريدة في السوق المصري
 
 💡 **للحصول على أفضل إجابة:**
-• اختر أحد الأسئلة السريعة بالأعلى
-• اسأل عن تطبيق محدد أو سيناريو
-• اذكر صناعتك للحصول على نصائح مخصصة
+• اختر أحد الأسئلة السريعة
+• اسأل عن تطبيق محدد
+• اذكر صناعتك
 
-**🎯 سؤالي لك:** "ما هو أكبر تحدي إداري تواجهه حالياً في عملك؟"`;
-}
+**🎯 سؤالي لك:** "ما هو أكبر تحدي إداري تواجهه حالياً؟"`;
+    }
 
-// ==========================================
-// Helper Functions
-// ==========================================
+    // Helper methods
+    getIndustrySolutionTip(industry, painIndex) {
+        const tips = {
+            manufacturing: [
+                "ربط المبيعات بالإنتاج يقلل المخزون الزائد",
+                "أتمتة تتبع المواد الخام توفر 20% من التكاليف", 
+                "تكامل CRM مع Inventory يضمن عدم بيع منتجات غير متوفرة",
+                "تقارير الإنتاج الآنية تقلل الهدر 35%"
+            ],
+            retail: [
+                "مخزون موحد عبر جميع القنوات يزيد المبيعات 25%",
+                "تحليل سلوك العملاء يرفع معدل التحويل 40%",
+                "أتمتة الشحن تقلل الأخطاء 90%",
+                "تكامل المبيعات مع المحاسبة يوفر 15 ساعة أسبوعياً"
+            ],
+            services: [
+                "تتبع وقت المشاريع يزيد الربحية 30%",
+                "أتمتة الفواتير تقلل وقت التحصيل 70%",
+                "منصة تعاون موحدة ترفع إنتاجية الفرق 35%",
+                "إدارة علاقات العملاء تحافظ على العملاء 50% أطول"
+            ]
+        };
+        return tips[industry]?.[painIndex] || "حل متكامل عبر Zoho One يحقق توفير 40-60%";
+    }
 
-function getIndustrySolutionTip(industry, painIndex) {
-    const tips = {
-        manufacturing: [
-            "ربط المبيعات بالإنتاج يeliminate المخزون الزائد",
-            "أتمتة تتبع المواد الخام توفر 20% من التكاليف", 
-            "تكامل CRM مع Inventory يضمن عدم بيع منتجات غير متوفرة",
-            "تقارير الإنتاج الآنية تقلل الهدر 35%"
-        ],
-        retail: [
-            "مخزون موحد عبر جميع القنوات يزيد المبيعات 25%",
-            "تحليل سلوك العملاء يرفع معدل التحويل 40%",
-            "أتمتة الشحن تقلل الأخطاء 90%",
-            "تكامل المبيعات مع المحاسبة يوفر 15 ساعة أسبوعياً"
-        ],
-        services: [
-            "تتبع وقت المشاريع يزيد الربحية 30%",
-            "أتمتة الفواتير تقلل وقت التحصيل 70%",
-            "منصة تعاون موحدة ترفع إنتاجية الفرق 35%",
-            "إدارة علاقات العملاء تحافظ على العملاء 50% أطول"
-        ]
-    };
-    return tips[industry]?.[painIndex] || "حل متكامل عبر Zoho One يحقق توفير 40-60%";
-}
+    getIndustrySalesTip(industry) {
+        const tips = {
+            manufacturing: "ركز على توفير تكاليف المخزون والهدر - Zoho Inventory يوفر 30% مباشرة",
+            retail: "شاهد كيف يزيد Zoho مبيعاتك 25% من خلال إدارة مخزون ذكية", 
+            services: "الوقت هو سلعتك - Zoho يوفر 20+ ساعة أسبوعياً تترجم مباشرة إلى أرباح"
+        };
+        return tips[industry] || "Zoho يحول العمليات من مصروف إلى استثمار مدر للربح";
+    }
 
-function getIndustrySalesTip(industry) {
-    const tips = {
-        manufacturing: "ركز على توفير تكاليف المخزون والهدر - Zoho Inventory يوفر 30% مباشرة في التكاليف",
-        retail: "شاهد كيف يزيد Zoho مبيعاتك 25% من خلال إدارة مخزون ذكية وتجربة عملاء محسنة", 
-        services: "الوقت هو سلعتك - Zoho يوفر 20+ ساعة أسبوعياً تترجم مباشرة إلى أرباح إضافية"
-    };
-    return tips[industry] || "Zoho يحول العمليات من مصروف إلى استثمار مدر للربح";
-}
+    getAppCaseStudies(appKey) {
+        const cases = {
+            crm: "• شركة أدوية: زادت مبيعاتها 45%
+• مؤسسة تعليمية: حسنت تحويل العملاء 60%
+• شركة تقنية: قللت وقت المتابعة 70%",
+            inventory: "• مصنع أثاث: وفر 35% في تكاليف المخزون
+• متجر إلكتروني: قلل الأخطاء 95%
+• موزع: حسن كفاءة المستودعات 50%",
+            books: "• مكتب محاسبة: وفر 25 ساعة أسبوعياً
+• مقاول: حسن التدفق النقدي 40%
+• تاجر: قلل الأخطاء المحاسبية 99%"
+        };
+        return cases[appKey] || "مئات الشركات المصرية تشهد نجاحاً ملحوظاً مع Zoho";
+    }
 
-function getAppCaseStudies(appKey) {
-    const cases = {
-        crm: "• شركة أدوية: زادت مبيعاتها 45% خلال 4 أشهر\n• مؤسسة تعليمية: حسنت تحويل العملاء 60%\n• شركة تقنية: قللت وقت المتابعة 70%",
-        inventory: "• مصنع أثاث: وفر 35% في تكاليف المخزون\n• متجر إلكتروني: قلل الأخطاء 95%\n• موزع: حسن كفاءة المستودعات 50%",
-        books: "• مكتب محاسبة: وفر 25 ساعة أسبوعياً\n• مقاول: حسن التدفق النقدي 40%\n• تاجر: قلل الأخطاء المحاسبية 99%"
-    };
-    return cases[appKey] || "مئات الشركات المصرية تشهد نجاحاً ملحوظاً مع Zoho";
-}
+    getAppImplementationTip(appKey) {
+        const tips = {
+            crm: "ابدأ بأتمتة المتابعة مع العملاء - يوفر 70% من وقت المندوبين",
+            inventory: "حول المخزون الورقي إلى رقمي أولاً - تشعر بالفائدة من اليوم الأول",
+            books: "أتمتة الفواتير توفر وقتاً فورياً وتمنع الأخطاء",
+            desk: "قاعدة المعرفة تقلل مكالمات الدعم 40% من أول أسبوع"
+        };
+        return tips[appKey] || "التنفيذ التدريجي يضمن النجاح - ابدأ بأكبر مشكلة";
+    }
 
-function getAppImplementationTip(appKey) {
-    const tips = {
-        crm: "ابدأ بأتمتة المتابعة مع العملاء - يوفر 70% من وقت المندوبين مباشرة",
-        inventory: "حول المخزون الورقي إلى رقمي أولاً - يشعرك بالفائدة من اليوم الأول",
-        books: "أتمتة الفواتير توفر وقتاً فورياً وتمنع الأخطاء البشرية",
-        desk: "قاعدة المعرفة تقلل مكالمات الدعم 40% من أول أسبوع"
-    };
-    return tips[appKey] || "التنفيذ التدريجي يضمن النجاح - ابدأ بأكبر مشكلة وحلها أولاً";
-}
+    getTierName(tier) {
+        const names = {
+            standard: "الباقة الأساسية",
+            professional: "الباقة المتقدمة",
+            enterprise: "باقة المؤسسات" 
+        };
+        return names[tier] || tier;
+    }
 
-function getTierName(tier) {
-    const names = {
-        standard: "الباقة الأساسية",
-        professional: "الباقة المتقدمة",
-        enterprise: "باقة المؤسسات" 
-    };
-    return names[tier] || tier;
-}
-
-// ==========================================
-// COMPATIBLE REPLACEMENT FUNCTION
-// ==========================================
-
-// Replace your existing getSimulatedResponse function with this:
-async function getSimulatedResponse(question) {
-    // Simulate API delay (1-2 seconds for realistic feel)
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
-    
-    // Use the enhanced response generator
-    return generateComprehensiveResponse(question);
-}
-
-// ==========================================
-// HYBRID MODE OPTION (For Future Use)
-// ==========================================
-
-// If you want to add Gemini fallback later, use this structure:
-async function getHybridResponse(question) {
-    // Check if question is Zoho-related
-    if (isZohoRelated(question)) {
-        return generateComprehensiveResponse(question);
-    } else {
-        // Fallback to Gemini for non-Zoho questions
-        return await callGeminiAPI(question);
+    // Simulate API response with delay
+    async getResponse(question) {
+        await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+        return this.generateResponse(question);
     }
 }
 
-function isZohoRelated(question) {
-    const zohoKeywords = [
-        'zoho', 'crm', 'inventory', 'books', 'desk', 'workplace', 'sites',
-        'زوهو', 'مخزون', 'محاسبة', 'دعم', 'تعاون', 'موقع', 'تطبيق',
-        'سعر', 'تكلفة', 'باقة', 'مقارنة', 'منافس', 'فوائد', 'عائد'
-    ];
-    
-    const q = question.toLowerCase();
-    return zohoKeywords.some(keyword => q.includes(keyword));
+// Initialize assistant
+const assistant = new ZohoAssistant();
+
+// Chat interface functions
+function addMessage(content, isUser = false) {
+    const messagesDiv = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+    messageDiv.innerHTML = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                .replace(/
+/g, '<br>');
+    messagesDiv.appendChild(messageDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
+
+async function sendMessage() {
+    const input = document.getElementById('userInput');
+    const question = input.value.trim();
+    
+    if (!question) return;
+    
+    addMessage(question, true);
+    input.value = '';
+    
+    // Show typing indicator
+    addMessage('🤔 جاري التفكير...', false);
+    
+    try {
+        const response = await assistant.getResponse(question);
+        // Remove typing indicator and add actual response
+        const messages = document.querySelectorAll('.message');
+        messages[messages.length - 1].remove();
+        addMessage(response, false);
+    } catch (error) {
+        const messages = document.querySelectorAll('.message');
+        messages[messages.length - 1].remove();
+        addMessage('عذراً، حدث خطأ. يرجى المحاولة مرة أخرى.', false);
+    }
+}
+
+// Handle Enter key
+document.getElementById('userInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
+
+// Welcome message on load
+window.onload = function() {
+    addMessage(assistant.generateWelcome(), false);
+};
 </script>
+
+</body>
+</html>
