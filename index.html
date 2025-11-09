@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="منصة Zoho الذكية للمبيعات - تطبيق احترافي لإنشاء المقترحات البيعية">
+    <title>Zoho Sales Intelligence - تسجيل الدخول</title>
+    
+    <!-- Google Fonts - Cairo for Arabic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <style>
+        /* Login Page Specific Styles */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #E42527 0%, #FFB81C 100%);
+            padding: 20px;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.6s ease;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .login-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .login-logo {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+        }
+        
+        .login-title {
+            font-size: 2rem;
+            color: var(--zoho-dark);
+            margin-bottom: 10px;
+        }
+        
+        .login-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .login-form .form-control {
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+        }
+        
+        .login-form .btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        
+        .welcome-message {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid var(--zoho-gray);
+        }
+        
+        .welcome-icon {
+            font-size: 3rem;
+            color: var(--zoho-red);
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 576px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+            
+            .login-logo {
+                height: 45px;
+            }
+            
+            .login-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Login Container -->
+    <div class="login-container">
+        <div class="login-card fade-in">
+            
+            <!-- Login Header with Logos -->
+            <div class="login-header">
+                <div class="login-logos">
+                    <img src="https://ik.imagekit.io/weo7pcw8v/image-removebg-preview%20(4).png?updatedAt=1761788896176" 
+                         alt="e& Egypt Logo" 
+                         class="login-logo">
+                    <img src="https://ik.imagekit.io/weo7pcw8v/image-removebg-preview%20(3).png?updatedAt=1761788895997" 
+                         alt="Zoho Logo" 
+                         class="login-logo">
+                </div>
+                
+                <h1 class="login-title">منصة Zoho الذكية</h1>
+                <p class="login-subtitle">نظام إدارة المبيعات والمقترحات الاحترافية</p>
+            </div>
+            
+            <!-- Login Form -->
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="salespersonName" class="form-label">
+                        <i class="fas fa-user"></i> الاسم الكامل
+                    </label>
+                    <input type="text" 
+                           id="salespersonName" 
+                           name="salespersonName" 
+                           class="form-control" 
+                           placeholder="أدخل اسمك الكامل"
+                           required
+                           autocomplete="name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        <i class="fas fa-envelope"></i> البريد الإلكتروني (اختياري)
+                    </label>
+                    <input type="email" 
+                           id="email" 
+                           name="email" 
+                           class="form-control" 
+                           placeholder="example@etisalat.com.eg"
+                           autocomplete="email">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> دخول إلى المنصة
+                </button>
+            </form>
+            
+            <!-- Welcome Message -->
+            <div class="welcome-message">
+                <div class="welcome-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <p><strong>مرحباً بك في منصة Zoho الذكية!</strong></p>
+                <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                    أنشئ مقترحات مبيعات احترافية في 10 دقائق فقط
+                </p>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        // Login Form Handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const salespersonName = document.getElementById('salespersonName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            
+            if (!salespersonName) {
+                alert('⚠️ من فضلك أدخل اسمك الكامل');
+                return;
+            }
+            
+            // Save user data to localStorage
+            const userData = {
+                name: salespersonName,
+                email: email || '',
+                loginTime: new Date().toISOString()
+            };
+            
+            localStorage.setItem('zohoUserData', JSON.stringify(userData));
+            
+            // Add loading animation
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الدخول...';
+            submitBtn.disabled = true;
+            
+            // Simulate loading and redirect
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1000);
+        });
+        
+        // Check if user is already logged in
+        window.addEventListener('DOMContentLoaded', function() {
+            const userData = localStorage.getItem('zohoUserData');
+            if (userData) {
+                const user = JSON.parse(userData);
+                // Check if login was within last 24 hours
+                const loginTime = new Date(user.loginTime);
+                const now = new Date();
+                const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
+                
+                if (hoursDiff < 24) {
+                    // Auto-redirect if recent login
+                    window.location.href = 'dashboard.html';
+                }
+            }
+        });
+        
+        // Add keyboard shortcut (Enter key)
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e& Smart - المساعد الذكي</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    
+    <!-- Header -->
+    <header class="header no-print">
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="https://ik.imagekit.io/weo7pcw8v/image-removebg-preview%20(4).png?updatedAt=1761788896176" 
+                     alt="e& Egypt" 
+                     class="logo logo-left">
+                <img src="https://ik.imagekit.io/weo7pcw8v/image-removebg-preview%20(3).png?updatedAt=1761788895997" 
+                     alt="Zoho" 
+                     class="logo logo-right">
+            </div>
+            <div class="user-info">
+                <a href="dashboard.html" class="btn btn-outline btn-sm" style="margin-left: 15px;">
+                    <i class="fas fa-home"></i> الرئيسية
+                </a>
+                <i class="fas fa-user-circle"></i>
+                <span id="userName">مستخدم</span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Container -->
+    <div class="container" style="padding: 30px 20px;">
+        
+        <!-- Page Title -->
+        <div class="text-center mb-4">
+            <h1 style="color: var(--zoho-red);">
+                <i class="fas fa-brain"></i> e& Smart - المساعد الذكي
+            </h1>
+            <p style="color: var(--text-secondary); font-size: 1.1rem;">
+                اسأل أي سؤال عن منتجات Zoho واحصل على إجابات شاملة ومخصصة
+            </p>
+        </div>
+        
+        <!-- Quick Questions -->
+        <div class="card mb-4 no-print">
+            <div class="card-header">
+                <h3 class="card-title" style="margin: 0;">
+                    <i class="fas fa-lightbulb"></i> أسئلة سريعة
+                </h3>
+            </div>
+            <div class="card-body">
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <button class="btn btn-outline btn-sm quick-question">
+                        ما هي تطبيقات Zoho المتاحة؟
+                    </button>
+                    <button class="btn btn-outline btn-sm quick-question">
+                        كم سعر Zoho CRM؟
+                    </button>
+                    <button class="btn btn-outline btn-sm quick-question">
+                        ما الفرق بين Zoho One والتطبيقات المنفصلة؟
+                    </button>
+                    <button class="btn btn-outline btn-sm quick-question">
+                        كيف يمكن لـ Zoho مساعدة شركات التصنيع؟
+                    </button>
+                    <button class="btn btn-outline btn-sm quick-question">
+                        ما هي مزايا Zoho مقارنة بـ Salesforce؟
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chat Container -->
+        <div class="chat-container">
+            
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chatMessages">
+                <!-- Welcome Message -->
+                <div class="message message-ai">
+                    <div>
+                        <strong>🤖 مساعد Zoho الذكي</strong>
+                        <p>مرحباً! أنا هنا لمساعدتك في معرفة كل شيء عن منتجات Zoho.</p>
+                        <p>يمكنني مساعدتك في:</p>
+                        <ul style="margin: 10px 0; padding-right: 20px;">
+                            <li>شرح تفصيلي لكل تطبيق من تطبيقات Zoho</li>
+                            <li>مقارنة الأسعار والباقات</li>
+                            <li>توصيات مخصصة حسب صناعتك</li>
+                            <li>مقارنات مع المنافسين</li>
+                            <li>حساب العائد على الاستثمار</li>
+                        </ul>
+                        <p><strong>اسألني أي سؤال أو اختر سؤالاً سريعاً من الأعلى!</strong></p>
+                    </div>
+                    <div class="message-time">
+                        <script>document.write(new Date().toLocaleTimeString('ar-EG'))</script>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Input -->
+            <div class="chat-input-container no-print">
+                <input type="text" 
+                       id="chatInput" 
+                       class="form-control chat-input" 
+                       placeholder="اكتب سؤالك هنا..."
+                       autocomplete="off">
+                <button id="sendBtn" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> إرسال
+                </button>
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p style="margin-top: 20px; font-size: 1.2rem;">جاري التفكير...</p>
+        </div>
+    </div>
+    
+    <!-- Knowledge Base -->
+    <script src="js/knowledge-base.js"></script>
+    
+    <!-- Main Chat Logic -->
+    <script>
+        // ==========================================
+        // Configuration
+        // ==========================================
+        
+        // NOTE: In production, use Google Apps Script as proxy
+        // const GEMINI_API_KEY = 'YOUR_API_KEY_HERE';
+        // const GEMINI_API_URL = 'YOUR_APPS_SCRIPT_PROXY_URL';
+        
+        // For demo purposes, we'll use a simulated AI response
+        const USE_REAL_API = false;
+        
+        // ==========================================
+        // Elements
+        // ==========================================
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const quickQuestions = document.querySelectorAll('.quick-question');
+        
+        // ==========================================
+        // Authentication Check
+        // ==========================================
+        window.addEventListener('DOMContentLoaded', function() {
+            const userData = localStorage.getItem('zohoUserData');
+            if (!userData) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const user = JSON.parse(userData);
+            document.getElementById('userName').textContent = user.name;
+        });
+        
+        // ==========================================
+        // Quick Questions Handler
+        // ==========================================
+        quickQuestions.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const question = this.textContent.trim();
+                chatInput.value = question;
+                sendMessage();
+            });
+        });
+        
+        // ==========================================
+        // Send Message Handler
+        // ==========================================
+        sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            
+            if (!message) {
+                return;
+            }
+            
+            // Add user message to chat
+            addMessage(message, 'user');
+            
+            // Clear input
+            chatInput.value = '';
+            
+            // Show loading
+            loadingOverlay.style.display = 'flex';
+            
+            // Get AI response
+            try {
+                let response;
+                
+                if (USE_REAL_API) {
+                    response = await getGeminiResponse(message);
+                } else {
+                    response = await getSimulatedResponse(message);
+                }
+                
+                // Add AI response to chat
+                addMessage(response, 'ai');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                addMessage('عذراً، حدث خطأ في معالجة سؤالك. من فضلك حاول مرة أخرى.', 'ai');
+            } finally {
+                // Hide loading
+                loadingOverlay.style.display = 'none';
+            }
+            
+            // Save conversation to localStorage
+            saveConversation();
+        }
+        
+        // ==========================================
+        // Add Message to Chat
+        // ==========================================
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message message-${sender}`;
+            
+            const time = new Date().toLocaleTimeString('ar-EG', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            messageDiv.innerHTML = `
+                <div>${formatMessage(text)}</div>
+                <div class="message-time">${time}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // ==========================================
+        // Format Message (Support Markdown-like)
+        // ==========================================
+        function formatMessage(text) {
+            // Replace newlines with <br>
+            text = text.replace(/\n/g, '<br>');
+            
+            // Bold text **text**
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // Lists
+            text = text.replace(/^• (.+)$/gm, '<li>$1</li>');
+            text = text.replace(/(<li>.*<\/li>)/s, '<ul style="margin:10px 0;padding-right:20px;">$1</ul>');
+            
+            return text;
+        }
+        
+        // ==========================================
+        // Simulated AI Response (Knowledge-Based)
+        // ==========================================
+        async function getSimulatedResponse(question) {
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            const q = question.toLowerCase();
+            
+            // Question routing based on keywords
+            
+            // Apps overview
+            if (q.includes('تطبيقات') || q.includes('منتجات') || q.includes('ما هي')) {
+                return generateAppsOverview();
+            }
+            
+            // CRM specific
+            if (q.includes('crm') || q.includes('علاقات العملاء')) {
+                return generateAppDetails('crm');
+            }
+            
+            // Inventory specific
+            if (q.includes('inventory') || q.includes('مخزون')) {
+                return generateAppDetails('inventory');
+            }
+            
+            // Books specific
+            if (q.includes('books') || q.includes('محاسبة') || q.includes('مالية')) {
+                return generateAppDetails('books');
+            }
+            
+            // Desk specific
+            if (q.includes('desk') || q.includes('دعم العملاء')) {
+                return generateAppDetails('desk');
+            }
+            
+            // Workplace specific
+            if (q.includes('workplace') || q.includes('تعاون') || q.includes('بريد')) {
+                return generateAppDetails('workplace');
+            }
+            
+            // Sites specific
+            if (q.includes('sites') || q.includes('موقع') || q.includes('website')) {
+                return generateAppDetails('sites');
+            }
+            
+            // Pricing questions
+            if (q.includes('سعر') || q.includes('تكلفة') || q.includes('price')) {
+                return generatePricingInfo();
+            }
+            
+            // Zoho One
+            if (q.includes('zoho one') || q.includes('الفرق') || q.includes('باقة كاملة')) {
+                return generateZohoOneInfo();
+            }
+            
+            // Industry specific
+            if (q.includes('تصنيع') || q.includes('manufacturing')) {
+                return generateIndustryInfo('manufacturing');
+            }
+            if (q.includes('تجارة') || q.includes('retail')) {
+                return generateIndustryInfo('retail');
+            }
+            
+            // Competitors
+            if (q.includes('salesforce') || q.includes('مقارنة') || q.includes('منافس')) {
+                return generateCompetitorComparison();
+            }
+            
+            // Default response
+            return `شكراً لسؤالك! 
+
+أنا مساعد Zoho الذكي، يمكنني مساعدتك في:
+
+**📱 معلومات عن التطبيقات:**
+• Zoho CRM - إدارة علاقات العملاء
+• Zoho Inventory - إدارة المخزون
+• Zoho Books - المحاسبة المالية
+• Zoho Desk - دعم العملاء
+• Zoho Workplace - التعاون والإنتاجية
+• Zoho Sites - إنشاء المواقع
+
+**💰 الأسعار والباقات**
+**🏭 حلول حسب الصناعة**
+**📊 مقارنات مع المنافسين**
+
+من فضلك اسأل سؤالاً أكثر تحديداً وسأقدم لك إجابة مفصلة!`;
+        }
+        
+        // ==========================================
+        // Response Generators
+        // ==========================================
+        
+        function generateAppsOverview() {
+            const apps = KNOWLEDGE_BASE.apps;
+            let response = `**📱 تطبيقات Zoho المتاحة - نظرة شاملة**\n\n`;
+            response += `يوفر Zoho مجموعة من 6 تطبيقات أساسية مستقلة:\n\n`;
+            
+            Object.keys(apps).forEach(key => {
+                const app = apps[key];
+                response += `**${app.nameAr} (${app.name})**\n`;
+                response += `• ${app.description}\n`;
+                response += `• السعر: من ${app.pricing.standard || app.pricing.starter} جنيه مصري شهرياً\n\n`;
+            });
+            
+            response += `**💡 نصيحة:** إذا كنت بحاجة لـ 3 تطبيقات أو أكثر، فإن Zoho One أوفر بكثير!\n`;
+            response += `Zoho One يشمل 45+ تطبيق بسعر 4,200 جنيه/مستخدم/شهر`;
+            
+            return response;
+        }
+        
+        function generateAppDetails(appKey) {
+            const app = KNOWLEDGE_BASE.apps[appKey];
+            if (!app) return 'عذراً، لم أجد معلومات عن هذا التطبيق.';
+            
+            let response = `**${app.nameAr} (${app.name})**\n\n`;
+            response += `${app.description}\n\n`;
+            
+            response += `**🎯 المميزات الرئيسية:**\n`;
+            app.features.forEach(feature => {
+                response += `• ${feature}\n`;
+            });
+            
+            response += `\n**💪 الفوائد:**\n`;
+            app.benefits.forEach(benefit => {
+                response += `• ${benefit}\n`;
+            });
+            
+            response += `\n**💰 الأسعار (بالجنيه المصري):**\n`;
+            Object.keys(app.pricing).forEach(tier => {
+                response += `• ${tier}: ${app.pricing[tier]} جنيه\n`;
+            });
+            
+            response += `\n**🏭 مناسب لـ:**\n`;
+            app.industries.forEach(industry => {
+                response += `• ${industry}\n`;
+            });
+            
+            return response;
+        }
+        
+        function generatePricingInfo() {
+            return `**💰 دليل الأسعار الشامل - بالجنيه المصري**\n\n` +
+                   `**التطبيقات المستقلة:**\n` +
+                   `• Zoho CRM: 840-2,520 جنيه/مستخدم/شهر\n` +
+                   `• Zoho Inventory: 700-2,100 جنيه/شهر\n` +
+                   `• Zoho Books: 630-1,890 جنيه/شهر\n` +
+                   `• Zoho Desk: 560-2,100 جنيه/وكيل/شهر\n` +
+                   `• Zoho Workplace: 210-420 جنيه/مستخدم/شهر\n` +
+                   `• Zoho Sites: 280-490 جنيه/شهر\n\n` +
+                   `**Zoho One (الباقة الكاملة):**\n` +
+                   `• 4,200 جنيه/مستخدم/شهر\n` +
+                   `• يشمل 45+ تطبيق\n` +
+                   `• توفير يصل إلى 60%\n\n` +
+                   `**💡 قاعدة مهمة:**\n` +
+                   `إذا كنت بحاجة لـ 3 تطبيقات أو أكثر، فإن Zoho One هو الخيار الأمثل!`;
+        }
+        
+        function generateZohoOneInfo() {
+            return `**🚀 Zoho One - المنظومة الكاملة**\n\n` +
+                   `Zoho One هي حزمة متكاملة تضم 45+ تطبيق لإدارة كامل أعمالك.\n\n` +
+                   `**💰 السعر:**\n` +
+                   `• 4,200 جنيه مصري/مستخدم/شهر فقط\n\n` +
+                   `**✨ يشمل:**\n` +
+                   `• جميع التطبيقات الستة المستقلة\n` +
+                   `• 40+ تطبيق إضافي متقدم\n` +
+                   `• تكامل سلس بين جميع الأنظمة\n` +
+                   `• دعم فني مخصص\n` +
+                   `• تحديثات مجانية مدى الحياة\n\n` +
+                   `**📊 مثال على التوفير:**\n` +
+                   `لشركة بـ 10 موظفين تحتاج CRM + Inventory + Books:\n` +
+                   `• تكلفة منفصلة: ~70,000 جنيه/شهر\n` +
+                   `• تكلفة Zoho One: 42,000 جنيه/شهر\n` +
+                   `• **التوفير: 28,000 جنيه شهرياً (40%)**\n\n` +
+                   `**✅ متى يكون Zoho One إلزامياً؟**\n` +
+                   `• عند الحاجة لـ 3 تطبيقات أو أكثر\n` +
+                   `• للشركات المتوسطة والكبيرة\n` +
+                   `• عند الحاجة لتطبيقات متقدمة غير متوفرة منفصلة`;
+        }
+        
+        function generateIndustryInfo(industry) {
+            const data = KNOWLEDGE_BASE.industries[industry];
+            if (!data) return 'عذراً، لا توجد معلومات عن هذه الصناعة.';
+            
+            let response = `**🏭 حلول Zoho لقطاع ${data.nameAr}**\n\n`;
+            
+            response += `**❌ التحديات الشائعة:**\n`;
+            data.painPoints.forEach(pain => {
+                response += `• ${pain}\n`;
+            });
+            
+            response += `\n**✅ التطبيقات الموصى بها:**\n`;
+            data.recommendedApps.forEach(appKey => {
+                const app = KNOWLEDGE_BASE.apps[appKey];
+                response += `• ${app.nameAr}: ${app.description}\n`;
+            });
+            
+            if (data.recommendZohoOne) {
+                response += `\n**💡 التوصية:**\n`;
+                response += `ننصح بشدة باستخدام Zoho One للحصول على حل متكامل وتوفير أكبر.`;
+            }
+            
+            return response;
+        }
+        
+        function generateCompetitorComparison() {
+            return `**📊 مقارنة Zoho مع المنافسين**\n\n` +
+                   `**Zoho vs Salesforce:**\n` +
+                   `• Zoho أرخص بنسبة 70%\n` +
+                   `• واجهة أسهل للاستخدام\n` +
+                   `• تكامل أفضل بين التطبيقات\n` +
+                   `• دعم باللغة العربية\n\n` +
+                   `**Zoho vs Microsoft Dynamics:**\n` +
+                   `• Zoho أرخص بنسبة 60%\n` +
+                   `• إعداد أسرع وأسهل\n` +
+                   `• تكاليف تشغيل أقل\n\n` +
+                   `**Zoho vs Odoo:**\n` +
+                   `• واجهة مستخدم أفضل\n` +
+                   `• دعم فني أكثر احترافية\n` +
+                   `• تطبيقات موبايل متطورة\n\n` +
+                   `**💡 الخلاصة:**\n` +
+                   `Zoho يقدم أفضل قيمة مقابل السعر مع جودة عالية وموثوقية مضمونة.`;
+        }
+        
+        // ==========================================
+        // Real Gemini API Integration (Production)
+        // ==========================================
+        async function getGeminiResponse(question) {
+            // This would call your Google Apps Script proxy
+            // which securely handles the Gemini API call
+            
+            const response = await fetch(GEMINI_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    question: question,
+                    context: JSON.stringify(KNOWLEDGE_BASE)
+                })
+            });
+            
+            const data = await response.json();
+            return data.answer;
+        }
+        
+        // ==========================================
+        // Save Conversation
+        // ==========================================
+        function saveConversation() {
+            const messages = Array.from(chatMessages.children).map(msg => ({
+                text: msg.textContent,
+                sender: msg.classList.contains('message-user') ? 'user' : 'ai',
+                time: new Date().toISOString()
+            }));
+            
+            const sessionData = JSON.parse(localStorage.getItem('zohoSessionData') || '{}');
+            sessionData.aiChatHistory = messages;
+            localStorage.setItem('zohoSessionData', JSON.stringify(sessionData));
+        }
+        
+        // Auto-focus input
+        chatInput.focus();
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,59 @@
+# Zoho Sales Intelligence Platform
+# .gitignore
+
+# System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencies (if using npm/yarn later)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build output (if using build tools)
+dist/
+build/
+.cache/
+
+# Environment variables (if storing API keys locally)
+.env
+.env.local
+.env.production
+config.local.js
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Backups
+*.bak
+*.backup
+*_backup.*
+
+# Testing
+coverage/
+.nyc_output/
+
+# OS generated
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Project specific
+# (uncomment if you want to ignore these)
+# google-apps-script/Code.gs  # If you don't want to commit API keys

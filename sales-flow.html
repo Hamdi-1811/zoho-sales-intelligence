@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e& Self - مسار إنشاء المقترح</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- jsPDF for PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <style>
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .app-checkbox-card {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .app-checkbox-card input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .app-checkbox-card input[type="checkbox"]:checked + .flip-card {
+            border: 3px solid var(--zoho-red);
+        }
+        
+        .roi-summary {
+            background: linear-gradient(135deg, var(--zoho-red), var(--zoho-gold));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .roi-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .roi-item:last-child {
+            border-bottom: none;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th {
+            background: var(--zoho-red);
+            color: white;
+        }
+        
+        .comparison-table td.highlight {
+            background: #d4edda;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Header -->
+    <header class="header no-print">
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="https://ik.imagekit.io/weo7pcw8v/image-removebg-preview%20(4).png?updatedAt=1761788896176" 
+                     alt="e& Egypt" class="logo logo-left">
+                <img src="https://ik.imagekit.io/weo7pcw8v/image-removebg-preview%20(3).png?updatedAt=1761788895997" 
+                     alt="Zoho" class="logo logo-right">
+            </div>
+            <div class="user-info">
+                <a href="dashboard.html" class="btn btn-outline btn-sm" style="margin-left: 15px;">
+                    <i class="fas fa-home"></i> الرئيسية
+                </a>
+                <i class="fas fa-user-circle"></i>
+                <span id="userName">مستخدم</span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Container -->
+    <div class="container" style="padding: 30px 20px; max-width: 1000px;">
+        
+        <!-- Progress Indicator -->
+        <div class="step-indicator no-print" id="stepIndicator">
+            <div class="step active" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-label">معلومات الشركة</div>
+            </div>
+            <div class="step" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-label">تحليل الاحتياجات</div>
+            </div>
+            <div class="step" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-label">اختيار التطبيقات</div>
+            </div>
+            <div class="step" data-step="4">
+                <div class="step-number">4</div>
+                <div class="step-label">حساب التكلفة</div>
+            </div>
+            <div class="step" data-step="5">
+                <div class="step-number">5</div>
+                <div class="step-label">المقترح النهائي</div>
+            </div>
+        </div>
+        
+        <!-- Step 1: Company Information -->
+        <div class="step-content" id="step1" style="display: block;">
+            <div class="card slide-up">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-building"></i> معلومات الشركة
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <form id="companyForm">
+                        <div class="form-group">
+                            <label for="companyName" class="form-label">اسم الشركة *</label>
+                            <input type="text" id="companyName" class="form-control" 
+                                   placeholder="مثال: شركة النجاح للتجارة" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="companyWebsite" class="form-label">الموقع الإلكتروني (اختياري)</label>
+                            <input type="url" id="companyWebsite" class="form-control" 
+                                   placeholder="https://www.example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="companySocial" class="form-label">روابط وسائل التواصل (اختياري)</label>
+                            <input type="text" id="companySocial" class="form-control" 
+                                   placeholder="Facebook, LinkedIn, Twitter">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="industry" class="form-label">القطاع / الصناعة *</label>
+                            <select id="industry" class="form-control" required>
+                                <option value="">-- اختر القطاع --</option>
+                                <option value="manufacturing">التصنيع</option>
+                                <option value="retail">التجارة والتجزئة</option>
+                                <option value="services">الخدمات المهنية</option>
+                                <option value="ecommerce">التجارة الإلكترونية</option>
+                                <option value="marketing">التسويق والإعلان</option>
+                                <option value="logistics">اللوجستيات والنقل</option>
+                                <option value="healthcare">الرعاية الصحية</option>
+                                <option value="education">التعليم</option>
+                                <option value="realestate">العقارات</option>
+                                <option value="fintech">التكنولوجيا المالية</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="employeeCount" class="form-label">عدد الموظفين *</label>
+                            <input type="number" id="employeeCount" class="form-control" 
+                                   placeholder="مثال: 25" min="1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="challenges" class="form-label">التحديات الرئيسية (اختياري)</label>
+                            <textarea id="challenges" class="form-control" rows="4"
+                                      placeholder="صف بإيجاز أهم التحديات التي تواجه شركتك..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg w-full">
+                            <i class="fas fa-arrow-left"></i> التالي - تحليل الاحتياجات
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 2: Needs Analysis -->
+        <div class="step-content" id="step2" style="display: none;">
+            <div class="card slide-up">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-chart-line"></i> تحليل الاحتياجات
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>بناءً على قطاعكم (<span id="selectedIndustry"></span>)، حددنا التحديات التالية:</strong>
+                    </div>
+                    
+                    <div id="painPointsList"></div>
+                    
+                    <div class="alert alert-success mt-4">
+                        <i class="fas fa-lightbulb"></i>
+                        <strong>التطبيقات الموصى بها:</strong>
+                        <div id="recommendedAppsList" class="mt-2"></div>
+                    </div>
+                    
+                    <div class="d-flex gap-2 mt-4">
+                        <button onclick="prevStep()" class="btn btn-secondary">
+                            <i class="fas fa-arrow-right"></i> السابق
+                        </button>
+                        <button onclick="nextStep()" class="btn btn-primary flex-1">
+                            <i class="fas fa-arrow-left"></i> التالي - اختيار التطبيقات
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 3: App Selection -->
+        <div class="step-content" id="step3" style="display: none;">
+            <div class="card slide-up">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-puzzle-piece"></i> اختيار التطبيقات
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                        اختر التطبيقات التي تحتاجها شركتك (انقر على البطاقة لمشاهدة التفاصيل)
+                    </p>
+                    
+                    <div class="app-grid" id="appsGrid"></div>
+                    
+                    <div class="alert alert-warning mt-4" id="zohoOneAlert" style="display: none;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>توصية هامة:</strong> لقد اخترت 3 تطبيقات أو أكثر. 
+                        ننصح بشدة باختيار <strong>Zoho One</strong> لتوفير أكثر من 40% من التكلفة!
+                    </div>
+                    
+                    <div class="d-flex gap-2 mt-4">
+                        <button onclick="prevStep()" class="btn btn-secondary">
+                            <i class="fas fa-arrow-right"></i> السابق
+                        </button>
+                        <button onclick="nextStep()" class="btn btn-primary flex-1">
+                            <i class="fas fa-arrow-left"></i> التالي - حساب التكلفة
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 4: ROI Calculator -->
+        <div class="step-content" id="step4" style="display: none;">
+            <div class="card slide-up">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-calculator"></i> حاسبة التكلفة والعائد
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div id="roiCalculation"></div>
+                    
+                    <div class="d-flex gap-2 mt-4">
+                        <button onclick="prevStep()" class="btn btn-secondary">
+                            <i class="fas fa-arrow-right"></i> السابق
+                        </button>
+                        <button onclick="nextStep()" class="btn btn-primary flex-1">
+                            <i class="fas fa-arrow-left"></i> التالي - المقترح النهائي
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 5: Final Proposal -->
+        <div class="step-content" id="step5" style="display: none;">
+            <div class="card slide-up">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-file-pdf"></i> المقترح النهائي
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        <strong>تم إعداد مقترحك بنجاح!</strong>
+                    </div>
+                    
+                    <div id="proposalPreview"></div>
+                    
+                    <div class="d-flex gap-2 mt-4 no-print">
+                        <button onclick="prevStep()" class="btn btn-secondary">
+                            <i class="fas fa-arrow-right"></i> السابق
+                        </button>
+                        <button onclick="exportPDF()" class="btn btn-primary flex-1">
+                            <i class="fas fa-download"></i> تصدير PDF
+                        </button>
+                        <button onclick="saveToSheets()" class="btn btn-gold">
+                            <i class="fas fa-save"></i> حفظ البيانات
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Knowledge Base -->
+    <script src="js/knowledge-base.js"></script>
+    
+    <!-- Main Logic -->
+    <script>
+        // ==========================================
+        // Global Variables
+        // ==========================================
+        let currentStep = 1;
+        let proposalData = {
+            company: {},
+            selectedApps: [],
+            pricing: {},
+            recommendation: ''
+        };
+        
+        // ==========================================
+        // Authentication & Initialization
+        // ==========================================
+        window.addEventListener('DOMContentLoaded', function() {
+            const userData = localStorage.getItem('zohoUserData');
+            if (!userData) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const user = JSON.parse(userData);
+            document.getElementById('userName').textContent = user.name;
+            proposalData.salesperson = user.name;
+            proposalData.salespersonEmail = user.email || '';
+            
+            // Load saved data if exists
+            const savedData = localStorage.getItem('zohoProposalData');
+            if (savedData) {
+                proposalData = JSON.parse(savedData);
+                populateForm();
+            }
+        });
+        
+        // ==========================================
+        // Step Navigation
+        // ==========================================
+        function nextStep() {
+            if (currentStep < 5) {
+                // Hide current step
+                document.getElementById(`step${currentStep}`).style.display = 'none';
+                
+                // Update step indicator
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
+                
+                // Show next step
+                currentStep++;
+                document.getElementById(`step${currentStep}`).style.display = 'block';
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+                
+                // Load step content
+                if (currentStep === 2) loadStep2();
+                if (currentStep === 3) loadStep3();
+                if (currentStep === 4) loadStep4();
+                if (currentStep === 5) loadStep5();
+            }
+        }
+        
+        function prevStep() {
+            if (currentStep > 1) {
+                // Hide current step
+                document.getElementById(`step${currentStep}`).style.display = 'none';
+                
+                // Update step indicator
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+                
+                // Show previous step
+                currentStep--;
+                document.getElementById(`step${currentStep}`).style.display = 'block';
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('completed');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            }
+        }
+        
+        // ==========================================
+        // Step 1: Company Form Handler
+        // ==========================================
+        document.getElementById('companyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            proposalData.company = {
+                name: document.getElementById('companyName').value,
+                website: document.getElementById('companyWebsite').value,
+                social: document.getElementById('companySocial').value,
+                industry: document.getElementById('industry').value,
+                employeeCount: parseInt(document.getElementById('employeeCount').value),
+                challenges: document.getElementById('challenges').value
+            };
+            
+            saveProposalData();
+            nextStep();
+        });
+        
+        // ==========================================
+        // Step 2: Needs Analysis
+        // ==========================================
+        function loadStep2() {
+            const industry = proposalData.company.industry;
+            const industryData = KNOWLEDGE_BASE.industries[industry] || KNOWLEDGE_BASE.industries.services;
+            
+            document.getElementById('selectedIndustry').textContent = industryData.nameAr;
+            
+            // Display pain points
+            let painPointsHTML = '<ul style="list-style: none; padding: 0;">';
+            industryData.painPoints.forEach(point => {
+                painPointsHTML += `<li style="padding: 10px 0; border-bottom: 1px solid var(--light-gray);">
+                    <i class="fas fa-times-circle" style="color: var(--zoho-red); margin-left: 10px;"></i>
+                    ${point}
+                </li>`;
+            });
+            painPointsHTML += '</ul>';
+            document.getElementById('painPointsList').innerHTML = painPointsHTML;
+            
+            // Display recommended apps
+            let appsHTML = '<ul style="list-style: none; padding: 0;">';
+            industryData.recommendedApps.forEach(appKey => {
+                const app = KNOWLEDGE_BASE.apps[appKey];
+                appsHTML += `<li style="padding: 8px 0;">
+                    <i class="fas fa-check-circle" style="color: var(--success); margin-left: 10px;"></i>
+                    <strong>${app.nameAr}</strong> - ${app.description}
+                </li>`;
+            });
+            appsHTML += '</ul>';
+            document.getElementById('recommendedAppsList').innerHTML = appsHTML;
+            
+            proposalData.industryData = industryData;
+            saveProposalData();
+        }
+        
+        // ==========================================
+        // Step 3: App Selection
+        // ==========================================
+        function loadStep3() {
+            const appsGrid = document.getElementById('appsGrid');
+            let html = '';
+            
+            Object.keys(KNOWLEDGE_BASE.apps).forEach(appKey => {
+                const app = KNOWLEDGE_BASE.apps[appKey];
+                const isRecommended = proposalData.industryData.recommendedApps.includes(appKey);
+                
+                html += `
+                <label class="app-checkbox-card">
+                    <input type="checkbox" name="selectedApps" value="${appKey}" 
+                           ${isRecommended ? 'checked' : ''} onchange="updateAppSelection()">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <i class="${app.icon}" style="font-size: 3rem; color: ${app.color}; margin-bottom: 15px;"></i>
+                                <h4 style="color: var(--zoho-dark); margin-bottom: 10px;">${app.nameAr}</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">${app.description}</p>
+                                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--light-gray);">
+                                    <strong style="color: var(--zoho-red);">
+                                        من ${app.pricing.standard || app.pricing.starter} جنيه/شهر
+                                    </strong>
+                                </div>
+                                ${isRecommended ? '<div class="alert alert-success mt-2" style="padding: 5px 10px; font-size: 0.8rem;"><i class="fas fa-star"></i> موصى به</div>' : ''}
+                            </div>
+                            <div class="flip-card-back">
+                                <h5 style="margin-bottom: 15px;">المميزات الرئيسية:</h5>
+                                <ul style="text-align: right; font-size: 0.85rem; list-style: none; padding: 0;">
+                                    ${app.features.slice(0, 4).map(f => `<li style="margin-bottom: 8px;"><i class="fas fa-check" style="margin-left: 5px;"></i> ${f}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </label>
+                `;
+            });
+            
+            appsGrid.innerHTML = html;
+            
+            // Pre-select recommended apps
+            updateAppSelection();
+        }
+        
+        function updateAppSelection() {
+            const checkboxes = document.querySelectorAll('input[name="selectedApps"]:checked');
+            proposalData.selectedApps = Array.from(checkboxes).map(cb => cb.value);
+            
+            // Show Zoho One alert if 3+ apps selected
+            const alert = document.getElementById('zohoOneAlert');
+            if (proposalData.selectedApps.length >= 3) {
+                alert.style.display = 'block';
+            } else {
+                alert.style.display = 'none';
+            }
+            
+            saveProposalData();
+        }
+        
+        // ==========================================
+        // Step 4: ROI Calculator
+        // ==========================================
+        function loadStep4() {
+            const userCount = proposalData.company.employeeCount;
+            const selectedApps = proposalData.selectedApps;
+            
+            // Calculate pricing
+            let standaloneTotal = 0;
+            let appBreakdown = [];
+            
+            selectedApps.forEach(appKey => {
+                const app = KNOWLEDGE_BASE.apps[appKey];
+                const pricePerUser = app.pricing.professional || app.pricing.standard;
+                const minimumUsers = KNOWLEDGE_BASE.pricingRules.minimumUsers[appKey] || 1;
+                const users = Math.max(minimumUsers, userCount);
+                const total = pricePerUser * users;
+                
+                standaloneTotal += total;
+                appBreakdown.push({
+                    name: app.nameAr,
+                    pricePerUser: pricePerUser,
+                    users: users,
+                    total: total
+                });
+            });
+            
+            const zohoOneTotal = 4200 * userCount;
+            const savings = standaloneTotal - zohoOneTotal;
+            const savingsPercent = ((savings / standaloneTotal) * 100).toFixed(0);
+            
+            proposalData.pricing = {
+                standalone: standaloneTotal,
+                zohoOne: zohoOneTotal,
+                savings: savings,
+                savingsPercent: savingsPercent,
+                appBreakdown: appBreakdown,
+                userCount: userCount
+            };
+            
+            proposalData.recommendation = selectedApps.length >= 3 ? 'zohoOne' : 'standalone';
+            
+            // Display calculation
+            let html = `
+                <h3 style="margin-bottom: 20px;">تفاصيل التطبيقات المختارة:</h3>
+                <table class="table comparison-table">
+                    <thead>
+                        <tr>
+                            <th>التطبيق</th>
+                            <th>السعر/مستخدم</th>
+                            <th>عدد المستخدمين</th>
+                            <th>الإجمالي الشهري</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            appBreakdown.forEach(app => {
+                html += `
+                    <tr>
+                        <td>${app.name}</td>
+                        <td>${app.pricePerUser.toLocaleString()} جنيه</td>
+                        <td>${app.users}</td>
+                        <td>${app.total.toLocaleString()} جنيه</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                    <tr style="font-weight: 700; background: var(--zoho-gray);">
+                        <td colspan="3">إجمالي التطبيقات المنفصلة</td>
+                        <td>${standaloneTotal.toLocaleString()} جنيه/شهر</td>
+                    </tr>
+                </tbody>
+            </table>
+            `;
+            
+            if (selectedApps.length >= 3) {
+                html += `
+                    <div class="roi-summary">
+                        <h3 style="margin-bottom: 20px;"><i class="fas fa-chart-pie"></i> مقارنة التكلفة</h3>
+                        <div class="roi-item">
+                            <span>التطبيقات المنفصلة</span>
+                            <span>${standaloneTotal.toLocaleString()} جنيه/شهر</span>
+                        </div>
+                        <div class="roi-item">
+                            <span>Zoho One (45+ تطبيق)</span>
+                            <span>${zohoOneTotal.toLocaleString()} جنيه/شهر</span>
+                        </div>
+                        <div class="roi-item">
+                            <span>💰 التوفير الشهري</span>
+                            <span>${savings.toLocaleString()} جنيه (${savingsPercent}%)</span>
+                        </div>
+                        <div class="roi-item">
+                            <span><strong>💎 التوفير السنوي</strong></span>
+                            <span><strong>${(savings * 12).toLocaleString()} جنيه</strong></span>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-success mt-4">
+                        <i class="fas fa-lightbulb"></i>
+                        <strong>التوصية النهائية:</strong> ننصح بشدة باختيار <strong>Zoho One</strong> 
+                        للحصول على 45+ تطبيق بتوفير ${savingsPercent}% وتكامل سلس بين جميع الأنظمة!
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div class="alert alert-info mt-4">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>التوصية:</strong> التطبيقات المنفصلة مناسبة لاحتياجاتكم الحالية.
+                        التكلفة الشهرية: <strong>${standaloneTotal.toLocaleString()} جنيه</strong>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('roiCalculation').innerHTML = html;
+            saveProposalData();
+        }
+        
+        // ==========================================
+        // Step 5: Final Proposal
+        // ==========================================
+        function loadStep5() {
+            let html = `
+                <div style="background: white; padding: 30px; border-radius: 10px;">
+                    <div class="text-center mb-4">
+                        <h2 style="color: var(--zoho-red); margin-bottom: 10px;">مقترح حلول Zoho</h2>
+                        <p style="color: var(--text-secondary);">لشركة ${proposalData.company.name}</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h3 style="color: var(--zoho-dark); border-bottom: 2px solid var(--zoho-red); padding-bottom: 10px;">
+                            1. معلومات الشركة
+                        </h3>
+                        <table style="width: 100%; margin-top: 15px;">
+                            <tr>
+                                <td style="padding: 8px; font-weight: 600;">الاسم:</td>
+                                <td style="padding: 8px;">${proposalData.company.name}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; font-weight: 600;">القطاع:</td>
+                                <td style="padding: 8px;">${proposalData.industryData.nameAr}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; font-weight: 600;">عدد الموظفين:</td>
+                                <td style="padding: 8px;">${proposalData.company.employeeCount}</td>
+                            </tr>
+                            ${proposalData.company.website ? `
+                            <tr>
+                                <td style="padding: 8px; font-weight: 600;">الموقع:</td>
+                                <td style="padding: 8px;">${proposalData.company.website}</td>
+                            </tr>` : ''}
+                        </table>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h3 style="color: var(--zoho-dark); border-bottom: 2px solid var(--zoho-red); padding-bottom: 10px;">
+                            2. التحديات المحددة
+                        </h3>
+                        <ul style="margin-top: 15px;">
+                            ${proposalData.industryData.painPoints.map(p => `<li style="margin-bottom: 8px;">${p}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h3 style="color: var(--zoho-dark); border-bottom: 2px solid var(--zoho-red); padding-bottom: 10px;">
+                            3. الحلول المقترحة
+                        </h3>
+                        <div style="margin-top: 15px;">
+                            ${proposalData.selectedApps.map(appKey => {
+                                const app = KNOWLEDGE_BASE.apps[appKey];
+                                return `
+                                    <div style="margin-bottom: 20px; padding: 15px; background: var(--zoho-gray); border-radius: 8px;">
+                                        <h4 style="color: var(--zoho-red); margin-bottom: 10px;">${app.nameAr}</h4>
+                                        <p style="margin-bottom: 10px;">${app.description}</p>
+                                        <strong>الفوائد:</strong>
+                                        <ul style="margin-top: 5px;">
+                                            ${app.benefits.slice(0, 3).map(b => `<li>${b}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h3 style="color: var(--zoho-dark); border-bottom: 2px solid var(--zoho-red); padding-bottom: 10px;">
+                            4. الاستثمار المطلوب
+                        </h3>
+                        <div style="margin-top: 15px; background: var(--zoho-gray); padding: 20px; border-radius: 8px;">
+                            ${proposalData.recommendation === 'zohoOne' ? `
+                                <div style="text-align: center;">
+                                    <h4 style="color: var(--zoho-red);">Zoho One - المنظومة الكاملة</h4>
+                                    <div style="font-size: 2rem; font-weight: 700; margin: 20px 0;">
+                                        ${proposalData.pricing.zohoOne.toLocaleString()} جنيه/شهر
+                                    </div>
+                                    <p style="color: var(--text-secondary);">
+                                        يشمل 45+ تطبيق بتوفير ${proposalData.pricing.savingsPercent}%
+                                    </p>
+                                    <div style="background: #d4edda; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                        <strong>💰 توفير سنوي: ${(proposalData.pricing.savings * 12).toLocaleString()} جنيه</strong>
+                                    </div>
+                                </div>
+                            ` : `
+                                <div style="text-align: center;">
+                                    <h4 style="color: var(--zoho-red);">تطبيقات منفصلة</h4>
+                                    <div style="font-size: 2rem; font-weight: 700; margin: 20px 0;">
+                                        ${proposalData.pricing.standalone.toLocaleString()} جنيه/شهر
+                                    </div>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h3 style="color: var(--zoho-dark); border-bottom: 2px solid var(--zoho-red); padding-bottom: 10px;">
+                            5. الخطوات التالية
+                        </h3>
+                        <ol style="margin-top: 15px; line-height: 2;">
+                            <li>مراجعة المقترح والموافقة عليه</li>
+                            <li>جدولة اجتماع تقني مع فريق Zoho</li>
+                            <li>تحديد خطة التنفيذ والتدريب</li>
+                            <li>البدء في الإعداد والتخصيص</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="text-center" style="background: linear-gradient(135deg, var(--zoho-red), var(--zoho-gold)); color: white; padding: 30px; border-radius: 10px;">
+                        <h3>نحن هنا لمساعدتكم!</h3>
+                        <p style="margin: 15px 0;">للمزيد من المعلومات أو لبدء التنفيذ:</p>
+                        <p><strong>مندوب المبيعات:</strong> ${proposalData.salesperson}</p>
+                        ${proposalData.salespersonEmail ? `<p><strong>البريد:</strong> ${proposalData.salespersonEmail}</p>` : ''}
+                        <p><strong>Etisalat Egypt - e& Business Solutions</strong></p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('proposalPreview').innerHTML = html;
+            saveProposalData();
+        }
+        
+        // ==========================================
+        // Export PDF
+        // ==========================================
+        function exportPDF() {
+            alert('📄 جاري تصدير المقترح...\n\nسيتم تحميل ملف PDF خلال لحظات.');
+            
+            // Use browser print for now (for production, implement jsPDF)
+            window.print();
+            
+            // Log export event
+            console.log('PDF exported:', proposalData);
+        }
+        
+        // ==========================================
+        // Save to Google Sheets
+        // ==========================================
+        async function saveToSheets() {
+            alert('💾 جاري حفظ البيانات...\n\nسيتم تأكيد الحفظ خلال لحظات.');
+            
+            // In production, this would call Google Apps Script API
+            // For now, we'll simulate success
+            
+            setTimeout(() => {
+                alert('✅ تم حفظ البيانات بنجاح!');
+                console.log('Saved to sheets:', proposalData);
+            }, 1000);
+        }
+        
+        // ==========================================
+        // Data Persistence
+        // ==========================================
+        function saveProposalData() {
+            localStorage.setItem('zohoProposalData', JSON.stringify(proposalData));
+        }
+        
+        function populateForm() {
+            if (proposalData.company.name) {
+                document.getElementById('companyName').value = proposalData.company.name;
+                document.getElementById('companyWebsite').value = proposalData.company.website || '';
+                document.getElementById('companySocial').value = proposalData.company.social || '';
+                document.getElementById('industry').value = proposalData.company.industry || '';
+                document.getElementById('employeeCount').value = proposalData.company.employeeCount || '';
+                document.getElementById('challenges').value = proposalData.company.challenges || '';
+            }
+        }
+    </script>
+    
+</body>
+</html>

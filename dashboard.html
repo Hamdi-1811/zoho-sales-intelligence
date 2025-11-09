@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoho Sales Intelligence - لوحة التحكم</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <style>
+        /* Dashboard Specific Styles */
+        .dashboard-container {
+            min-height: 100vh;
+            background: var(--zoho-gray);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #E42527 0%, #FFB81C 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+        
+        .modes-section {
+            padding: 60px 0;
+        }
+        
+        .modes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .mode-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mode-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--zoho-red), var(--zoho-gold));
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .mode-icon {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--zoho-red), var(--zoho-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .mode-title {
+            font-size: 2rem;
+            color: var(--zoho-dark);
+            margin-bottom: 15px;
+        }
+        
+        .mode-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+        
+        .mode-features {
+            text-align: right;
+            margin: 25px 0;
+            padding: 20px;
+            background: var(--zoho-gray);
+            border-radius: 10px;
+        }
+        
+        .mode-features ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .mode-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .mode-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .mode-features i {
+            color: var(--zoho-red);
+            margin-left: 10px;
+        }
+        
+        .stats-section {
+            background: white;
+            padding: 40px 0;
+            margin-top: 40px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--zoho-red);
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .modes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .mode-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="https://ik.imagekit.io/weo7pcw8v/image-removebg-preview%20(4).png?updatedAt=1761788896176" 
+                     alt="e& Egypt" 
+                     class="logo logo-left">
+                <img src="https://ik.imagekit.io/weo7pcw8v/image-removebg-preview%20(3).png?updatedAt=1761788895997" 
+                     alt="Zoho" 
+                     class="logo logo-right">
+            </div>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span id="userName">مستخدم</span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <h1 class="hero-title">مرحباً بك في منصة Zoho الذكية</h1>
+                <p class="hero-subtitle">اختر الطريقة المناسبة لك لإنشاء مقترحات مبيعات احترافية</p>
+            </div>
+        </section>
+        
+        <!-- Modes Section -->
+        <section class="modes-section">
+            <div class="container">
+                
+                <div class="modes-grid">
+                    
+                    <!-- Mode A: e& Smart (AI-Powered) -->
+                    <div class="mode-card slide-up">
+                        <div class="mode-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h2 class="mode-title">e& Smart</h2>
+                        <p class="mode-description">
+                            المساعد الذكي المدعوم بالذكاء الاصطناعي - احصل على إجابات فورية وتوصيات مخصصة
+                        </p>
+                        
+                        <div class="mode-features">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-check-circle"></i>
+                                    محادثة ذكية بالعربية مع الذكاء الاصطناعي
+                                </li>
+                                <li>
+                                    <i class="fas fa-check-circle"></i>
+                                    إجابات شاملة عن منتجات Zoho
+                                </li>
+                                <li>
+                                    <i class="fas fa-check-circle"></i>
+                                    توصيات مخصصة حسب احتياجات العميل
+                                </li>
+                                <li>
+                                    <i class="fas fa-check-circle"></i>
+                                    مقارنات تنافسية وتحليلات دقيقة
+                                </li>
+                                <li>
+                                    <i class="fas fa-check-circle"></i>
+                                    شروحات تقنية مفصلة خطوة بخطوة
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <a href="ai-chat.html" class="btn btn-primary btn-lg">
+                            <i class="fas fa-comments"></i> ابدأ المحادثة الذكية
+                        </a>
+                        
+                        <div style="margin-top: 15px;">
+                            <small style="color: var(--text-secondary);">
+                                <i class="fas fa-clock"></i> مثالي للأسئلة السريعة والاستشارات
+                            </small>
+                        </div>
+                    </div>
+                    
+                    <!-- Mode B: e& Self (Structured Flow) -->
+                    <div class="mode-card slide-up" style="animation-delay: 0.2s;">
+                        <div class="mode-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h2 class="mode-title">e& Self</h2>
+                        <p class="mode-description">
+                            مسار موجّه لإنشاء مقترحات مبيعات كاملة - خطوة بخطوة حتى التصدير النهائي
+                        </p>
+                        
+                        <div class="mode-features">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-check-circle"></i>
+                                    نماذج تفاعلية لجمع معلومات العميل
+                                </li>
+                                <li>
+                                    <i class="fas fa-check-circle"></i>
+                                    تحليل احتياجات حسب الصناعة
+                                </li>
+                                <li>
+                                    <i class="fas fa-check-circle"></i>
+                                    توصيات تطبيقات ذكية ومخصصة
+                                </li>
+                                <li>
+                                    <i class="fas fa-check-circle"></i>
+                                    حاسبة ROI تفصيلية ودقيقة
+                                </li>
+                                <li>
+                                    <i class="fas fa-check-circle"></i>
+                                    تصدير PDF احترافي جاهز للعرض
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <a href="sales-flow.html" class="btn btn-primary btn-lg">
+                            <i class="fas fa-rocket"></i> ابدأ إنشاء المقترح
+                        </a>
+                        
+                        <div style="margin-top: 15px;">
+                            <small style="color: var(--text-secondary);">
+                                <i class="fas fa-clock"></i> يستغرق حوالي 10 دقائق فقط
+                            </small>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </section>
+        
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="container">
+                <h2 class="text-center mb-4" style="color: var(--zoho-dark);">
+                    لماذا منصة Zoho الذكية؟
+                </h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">دقائق فقط لإنشاء المقترح</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">تطبيقات Zoho متاحة</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">45+</div>
+                        <div class="stat-label">تطبيق في Zoho One</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">دقة معلومات الأسعار</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        // Check authentication
+        window.addEventListener('DOMContentLoaded', function() {
+            const userData = localStorage.getItem('zohoUserData');
+            
+            if (!userData) {
+                // Redirect to login if not authenticated
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Display user name
+            const user = JSON.parse(userData);
+            document.getElementById('userName').textContent = user.name;
+            
+            // Add welcome animation
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.mode-card');
+                cards.forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(30px)';
+                    
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.6s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 200);
+                });
+            }, 100);
+        });
+        
+        // Add click tracking
+        document.querySelectorAll('.mode-card a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const mode = this.textContent.includes('الذكية') ? 'AI Chat' : 'Sales Flow';
+                
+                // Save mode selection
+                const sessionData = JSON.parse(localStorage.getItem('zohoSessionData') || '{}');
+                sessionData.selectedMode = mode;
+                sessionData.modeSelectedAt = new Date().toISOString();
+                localStorage.setItem('zohoSessionData', JSON.stringify(sessionData));
+                
+                console.log('Mode selected:', mode);
+            });
+        });
+        
+        // Logout functionality (optional)
+        function logout() {
+            if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+                localStorage.removeItem('zohoUserData');
+                localStorage.removeItem('zohoSessionData');
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Alt + 1 for AI Chat
+            if (e.altKey && e.key === '1') {
+                window.location.href = 'ai-chat.html';
+            }
+            // Alt + 2 for Sales Flow
+            if (e.altKey && e.key === '2') {
+                window.location.href = 'sales-flow.html';
+            }
+        });
+    </script>
+    
+</body>
+</html>
