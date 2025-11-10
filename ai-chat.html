@@ -1,1276 +1,454 @@
-
-Copy<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PBA Execution Roadmap: Phase 3 – Event Climax & Enrollment Conversion</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            line-height: 1.6;
-        }
-        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .chart-container { height: 400px; }
-        .timeline-item { border-left: 3px solid #667eea; }
-        .metric-card { transition: transform 0.2s; }
-        .metric-card:hover { transform: translateY(-2px); }
-        .week-timeline { position: relative; }
-        .week-timeline::before {
-            content: '';
-            position: absolute;
-            left: 20px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, #667eea, #764ba2);
-        }
-        .critical-path { 
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-        }
-        .benchmark-highlight {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-        }
-        .kpi-dashboard {
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-        }
-        @media print {
-            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .no-print { display: none !important; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>e& Smart - المساعد الذكي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --zoho-red: #E42527;
+      --zoho-dark: #1A1A1A;
+      --zoho-gray: #F5F5F5;
+      --zoho-gold: #FFB81C;
+      --white: #FFFFFF;
+      --text-secondary: #666666;
+      --border-color: #E0E0E0;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: var(--zoho-gray);
+      color: var(--zoho-dark);
+      line-height: 1.6;
+    }
+    .header {
+      background-color: var(--white);
+      padding: 15px 0;
+      box-shadow: 0 2px 10px var(--shadow-color);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo-container {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+    .logo {
+      height: 50px;
+      object-fit: contain;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--zoho-dark);
+      font-weight: 600;
+    }
+    .user-info i {
+      font-size: 1.5rem;
+      color: var(--zoho-red);
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary {
+      background-color: var(--zoho-red);
+      color: var(--white);
+    }
+    .btn-primary:hover {
+      background-color: #c41f21;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(228, 37, 39, 0.3);
+    }
+    .btn-outline {
+      background-color: transparent;
+      color: var(--zoho-red);
+      border: 2px solid var(--zoho-red);
+    }
+    .btn-outline:hover {
+      background-color: var(--zoho-red);
+      color: var(--white);
+    }
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+    .card {
+      background-color: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px var(--shadow-color);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .card-header {
+      background-color: var(--zoho-red);
+      color: var(--white);
+      padding: 15px 20px;
+      font-weight: 700;
+    }
+    .card-body {
+      padding: 20px;
+    }
+    .card-title {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+    .text-center { text-align: center; }
+    .mb-4 { margin-bottom: 30px; }
+    h1 {
+      color: var(--zoho-red);
+      font-weight: 900;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .chat-container {
+      background-color: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 4px 16px var(--shadow-color);
+      overflow: hidden;
+      height: 600px;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: var(--zoho-gray);
+    }
+    .message {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .message > div:first-child {
+      padding: 15px 20px;
+      border-radius: 12px;
+      max-width: 85%;
+      word-wrap: break-word;
+    }
+    .message-user > div:first-child {
+      background-color: var(--zoho-red);
+      color: var(--white);
+      align-self: flex-end;
+      margin-left: auto;
+    }
+    .message-ai > div:first-child {
+      background-color: var(--white);
+      color: var(--zoho-dark);
+      border: 2px solid var(--border-color);
+      align-self: flex-start;
+    }
+    .message-time {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 5px;
+      padding: 0 5px;
+    }
+    .chat-input-container {
+      display: flex;
+      gap: 10px;
+      padding: 20px;
+      background-color: var(--white);
+      border-top: 2px solid var(--border-color);
+    }
+    .chat-input {
+      flex: 1;
+      padding: 12px 20px;
+      border: 2px solid var(--border-color);
+      border-radius: 25px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    .chat-input:focus {
+      border-color: var(--zoho-red);
+      box-shadow: 0 0 0 3px rgba(228, 37, 39, 0.1);
+    }
+    .loading-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-top-color: var(--zoho-red);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Header -->
-    <header class="gradient-bg text-white py-16">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center">
-                <div class="mb-6">
-                    <i class="fas fa-chess-queen text-6xl opacity-80 mb-4"></i>
-                </div>
-                <h1 class="text-5xl font-bold mb-6">Premier Ballet Academy</h1>
-                <h2 class="text-3xl font-semibold mb-4">Phase 3 Execution Roadmap</h2>
-                <p class="text-2xl opacity-90 mb-2">Event Climax & Enrollment Conversion</p>
-                <p class="text-xl opacity-75">January 15 - February 14, 2026</p>
-                <div class="mt-8 inline-flex items-center bg-white bg-opacity-20 px-8 py-4 rounded-full">
-                    <i class="fas fa-calendar-check mr-4 text-2xl"></i>
-                    <span class="font-medium text-xl">Final 4-Week Push to Cairo Opera House Showcase</span>
-                </div>
-            </div>
+<body>
+  <header class="header no-print">
+    <div class="header-content">
+      <div class="logo-container">
+        <img src="https://ik.imagekit.io/weo7pcw8v/image-removebg-preview%20(4).png?updatedAt=1761788896176" alt="e& Egypt" class="logo logo-left">
+        <img src="https://ik.imagekit.io/weo7pcw8v/image-removebg-preview%20(3).png?updatedAt=1761788895997" alt="Zoho" class="logo logo-right">
+      </div>
+      <div class="user-info">
+        <a href="#" class="btn btn-outline btn-sm" style="margin-left: 15px;">
+          <i class="fas fa-home"></i> الرئيسية
+        </a>
+        <i class="fas fa-user-circle"></i>
+        <span id="userName">مستخدم تجريبي</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="text-center mb-4">
+      <h1><i class="fas fa-brain"></i> e& Smart - المساعد الذكي</h1>
+      <p style="color: var(--text-secondary); font-size: 1.1rem;">مساعدك الذكي للاستفسارات حول تطبيقات Zoho والأسعار</p>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-rocket"></i> أسئلة سريعة</h3>
+      </div>
+      <div class="card-body">
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+          <button class="btn btn-primary btn-sm" onclick="askQuickQuestion('CRM')">
+            <i class="fas fa-users"></i> CRM
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="askQuickQuestion('Books')">
+            <i class="fas fa-calculator"></i> المحاسبة
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="askQuickQuestion('Desk')">
+            <i class="fas fa-headset"></i> دعم العملاء
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="askQuickQuestion('Inventory')">
+            <i class="fas fa-boxes"></i> المخزون
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="askQuickQuestion('الأسعار')">
+            <i class="fas fa-tag"></i> الأسعار
+          </button>
         </div>
-    </header>
+      </div>
+    </div>
 
-    <!-- Executive Summary -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Executive Summary</h2>
-            <div class="grid lg:grid-cols-2 gap-12">
-                <div class="bg-gradient-to-r from-red-50 to-orange-50 p-8 rounded-xl border-l-4 border-red-500">
-                    <h3 class="text-2xl font-semibold text-gray-900 mb-6">Critical Funnel Gaps Identified</h3>
-                    <p class="text-gray-700 mb-6">Based on industry benchmarks and PBA website audit, several mission-critical optimizations must be deployed immediately to achieve the 25+ enrollment target.</p>
-                    <div class="space-y-4">
-                        <div class="flex items-start">
-                            <i class="fas fa-exclamation-triangle text-red-500 mr-4 mt-1"></i>
-                            <span class="text-sm"><strong>Missing Trial Landing:</strong> No dedicated "Premier First Step" conversion page</span>
-                        </div>
-                        <div class="flex items-start">
-                            <i class="fas fa-exclamation-triangle text-red-500 mr-4 mt-1"></i>
-                            <span class="text-sm"><strong>No Retargeting Setup:</strong> Meta/Google pixels not detected on site</span>
-                        </div>
-                        <div class="flex items-start">
-                            <i class="fas fa-exclamation-triangle text-red-500 mr-4 mt-1"></i>
-                            <span class="text-sm"><strong>Opera House Registration:</strong> Event signup page does not exist yet</span>
-                        </div>
-                        <div class="flex items-start">
-                            <i class="fas fa-exclamation-triangle text-red-500 mr-4 mt-1"></i>
-                            <span class="text-sm"><strong>No Urgency Mechanics:</strong> Missing countdown timers and scarcity cues</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-8 rounded-xl border-l-4 border-green-500">
-                    <h3 class="text-2xl font-semibold text-gray-900 mb-6">Benchmark-Validated Targets</h3>
-                    <p class="text-gray-700 mb-6">Industry data confirms the 25+ enrollment goal is achievable if critical fixes are implemented during Phase 3.</p>
-                    <div class="space-y-4">
-                        <div class="flex items-start">
-                            <i class="fas fa-chart-line text-green-500 mr-4 mt-1"></i>
-                            <span class="text-sm"><strong>Trial Conversion:</strong> 60-80% with <24hr follow-up (vs 56% needed)</span>
-                        </div>
-                        <div class="flex items-start">
-                            <i class="fas fa-chart-line text-green-500 mr-4 mt-1"></i>
-                            <span class="text-sm"><strong>Paid CPA:</strong> $12 median for performing arts (EGP 370)</span>
-                        </div>
-                        <div class="flex items-start">
-                            <i class="fas fa-chart-line text-green-500 mr-4 mt-1"></i>
-                            <span class="text-sm"><strong>Inquiry-to-Application:</strong> 31% organic, 15% referral benchmarks</span>
-                        </div>
-                        <div class="flex items-start">
-                            <i class="fas fa-chart-line text-green-500 mr-4 mt-1"></i>
-                            <span class="text-sm"><strong>Event Attendance:</strong> 75%+ registration-to-show with prestige venue</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Immediate Action Required -->
-            <div class="mt-12 critical-path p-8 rounded-xl">
-                <div class="text-center">
-                    <i class="fas fa-exclamation-circle text-4xl mb-4 opacity-90"></i>
-                    <h3 class="text-2xl font-bold mb-4">IMMEDIATE ACTION REQUIRED</h3>
-                    <p class="text-xl opacity-90 mb-6">These technical fixes must be completed by January 20th to salvage the campaign timeline</p>
-                    <div class="grid md:grid-cols-4 gap-4">
-                        <div class="bg-white bg-opacity-20 p-4 rounded-lg">
-                            <div class="font-semibold">DAY 1-3</div>
-                            <div class="text-sm">Deploy trial landing page</div>
-                        </div>
-                        <div class="bg-white bg-opacity-20 p-4 rounded-lg">
-                            <div class="font-semibold">DAY 4-5</div>
-                            <div class="text-sm">Install tracking pixels</div>
-                        </div>
-                        <div class="bg-white bg-opacity-20 p-4 rounded-lg">
-                            <div class="font-semibold">DAY 6-7</div>
-                            <div class="text-sm">Build Opera House registration</div>
-                        </div>
-                        <div class="bg-white bg-opacity-20 p-4 rounded-lg">
-                            <div class="font-semibold">DAY 8-10</div>
-                            <div class="text-sm">Launch urgency campaigns</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="chat-container">
+      <div class="chat-messages" id="chatMessages">
+        <div class="message message-ai">
+          <div>مرحباً! أنا المساعد الذكي لـ e& Smart. كيف يمكنني مساعدتك اليوم؟</div>
+          <div class="message-time">الآن</div>
         </div>
-    </section>
+      </div>
+      <div class="chat-input-container">
+        <input type="text" class="chat-input" id="chatInput" placeholder="اكتب سؤالك هنا...">
+        <button class="btn btn-primary" id="sendBtn">
+          <i class="fas fa-paper-plane"></i> إرسال
+        </button>
+      </div>
+    </div>
+  </div>
 
-    <!-- Industry Benchmark Analysis -->
-    <section class="py-16 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Validated Industry Benchmarks</h2>
-            
-            <div class="grid lg:grid-cols-3 gap-8 mb-12">
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <div class="text-center mb-6">
-                        <i class="fas fa-dollar-sign text-4xl text-blue-500 mb-4"></i>
-                        <h3 class="text-xl font-semibold">Cost Per Acquisition</h3>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="benchmark-highlight p-4 rounded-lg text-center">
-                            <div class="text-2xl font-bold">$12 USD</div>
-                            <div class="text-sm opacity-90">Performing Arts Facebook CPA</div>
-                        </div>
-                        <ul class="space-y-2 text-gray-700 text-sm">
-                            <li class="flex items-center"><i class="fas fa-arrow-right text-blue-500 mr-3"></i>Top 25%: $11-12 across channels</li>
-                            <li class="flex items-center"><i class="fas fa-arrow-right text-blue-500 mr-3"></i>Banner retargeting: $20 average</li>
-                            <li class="flex items-center"><i class="fas fa-arrow-right text-blue-500 mr-3"></i>PBA Target: EGP 370 per trial</li>
-                        </ul>
-                    </div>
-                </div>
+  <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+    <div class="loading-spinner"></div>
+  </div>
 
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <div class="text-center mb-6">
-                        <i class="fas fa-funnel-dollar text-4xl text-green-500 mb-4"></i>
-                        <h3 class="text-xl font-semibold">Conversion Rates</h3>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="bg-green-50 p-4 rounded-lg">
-                            <div class="grid grid-cols-2 gap-4 text-center">
-                                <div>
-                                    <div class="text-xl font-bold text-green-600">31%</div>
-                                    <div class="text-xs text-gray-600">Organic I-A Rate</div>
-                                </div>
-                                <div>
-                                    <div class="text-xl font-bold text-green-600">15%</div>
-                                    <div class="text-xs text-gray-600">Referral I-A Rate</div>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="space-y-2 text-gray-700 text-sm">
-                            <li class="flex items-center"><i class="fas fa-arrow-right text-green-500 mr-3"></i>Trial-to-Paid: 60-80% (24hr follow-up)</li>
-                            <li class="flex items-center"><i class="fas fa-arrow-right text-green-500 mr-3"></i>Dance retention: 75.9% average</li>
-                            <li class="flex items-center"><i class="fas fa-arrow-right text-green-500 mr-3"></i>Event attendance: 75%+ with prestige</li>
-                        </ul>
-                    </div>
-                </div>
+<script>
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const sendBtn = document.getElementById('sendBtn');
+const loadingOverlay = document.getElementById('loadingOverlay');
 
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <div class="text-center mb-6">
-                        <i class="fas fa-building text-4xl text-purple-500 mb-4"></i>
-                        <h3 class="text-xl font-semibold">Ballet School Financials</h3>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="bg-purple-50 p-4 rounded-lg text-center">
-                            <div class="text-2xl font-bold text-purple-600">44%</div>
-                            <div class="text-sm text-gray-600">Revenue from Tuition</div>
-                        </div>
-                        <ul class="space-y-2 text-gray-700 text-sm">
-                            <li class="flex items-center"><i class="fas fa-arrow-right text-purple-500 mr-3"></i>Summer intensives: 25% revenue</li>
-                            <li class="flex items-center"><i class="fas fa-arrow-right text-purple-500 mr-3"></i>Performance fees: 11% revenue</li>
-                            <li class="flex items-center"><i class="fas fa-arrow-right text-purple-500 mr-3"></i>Adult programs: 7% revenue</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+// ==========================================
+// KNOWLEDGE BASE
+// ==========================================
+const KNOWLEDGE_BASE = {
+  apps: {
+    crm: {
+      name: "Zoho CRM",
+      nameAr: "إدارة علاقات العملاء",
+      description: "نظام شامل لإدارة المبيعات والعملاء وتتبع الفرص البيعية",
+      features: ["إدارة جهات الاتصال", "تتبع الفرص", "أتمتة المبيعات", "تقارير وتحليلات", "تكامل مع البريد"],
+      benefits: ["زيادة المبيعات", "تحسين خدمة العملاء", "توفير الوقت"],
+      pricing: { standard: 840, professional: 1680, enterprise: 2520 },
+      industries: ["المبيعات", "التسويق"]
+    },
+    books: {
+      name: "Zoho Books",
+      nameAr: "المحاسبة المالية",
+      description: "برنامج محاسبة متكامل للفواتير والمصروفات",
+      features: ["الفواتير", "المصروفات", "التقارير الضريبية", "ربط البنوك", "فواتير متكررة"],
+      benefits: ["دقة محاسبية", "توفير الوقت", "تحكم مالي كامل"],
+      pricing: { standard: 630, professional: 1260, premium: 1890 },
+      industries: ["المالية", "المحاسبة"]
+    },
+    desk: {
+      name: "Zoho Desk",
+      nameAr: "دعم العملاء",
+      description: "نظام خدمة ودعم العملاء",
+      features: ["تذاكر الدعم", "قاعدة المعرفة", "الدردشة الحية", "SLA", "تحليلات رضا العملاء"],
+      benefits: ["رضا العملاء", "حل سريع", "تحسين تجربة الدعم"],
+      pricing: { standard: 560, professional: 1260, enterprise: 2100 },
+      industries: ["الخدمة", "الدعم الفني"]
+    },
+    inventory: {
+      name: "Zoho Inventory",
+      nameAr: "إدارة المخزون",
+      description: "نظام متكامل لإدارة المخزون والطلبات والشحن",
+      features: ["تتبع المخزون", "إدارة الطلبات", "باركود", "تكامل المتاجر", "مستودعات متعددة"],
+      benefits: ["تقليل الفاقد", "تحسين الكفاءة", "دقة التتبع"],
+      pricing: { standard: 700, professional: 1400, premium: 2100 },
+      industries: ["التجارة", "التصنيع"]
+    }
+  }
+};
 
-            <!-- Benchmark Comparison Chart -->
-            <div class="bg-white p-8 rounded-xl shadow-lg">
-                <h3 class="text-2xl font-semibold text-gray-900 mb-8 text-center">PBA vs Industry Benchmark Performance</h3>
-                <div class="chart-container">
-                    <canvas id="benchmarkChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </section>
+// ==========================================
+// Response Generators
+// ==========================================
+function generateAppDetails(appKey) {
+  const app = KNOWLEDGE_BASE.apps[appKey];
+  if (!app) return 'عذراً، لم أجد معلومات عن هذا التطبيق.';
+  let response = `**${app.nameAr} (${app.name})**\n\n${app.description}\n\n`;
+  response += `**🎯 المميزات:**\n` + app.features.map(f => `• ${f}`).join('\n') + '\n\n';
+  response += `**💪 الفوائد:**\n` + app.benefits.map(b => `• ${b}`).join('\n') + '\n\n';
+  response += `**💰 الأسعار:**\n` + Object.entries(app.pricing).map(([tier, price]) => `• ${tier}: ${price} جنيه`).join('\n');
+  return response;
+}
 
-    <!-- Phase 3 Timeline Overview -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Phase 3: Detailed 4-Week Timeline</h2>
-            
-            <!-- Timeline Header -->
-            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-8 rounded-xl mb-12">
-                <div class="text-center">
-                    <h3 class="text-3xl font-bold text-gray-900 mb-4">January 15 - February 14, 2026</h3>
-                    <p class="text-xl text-gray-700 mb-6">30-Day Sprint to Cairo Opera House Showcase & Enrollment Conversion</p>
-                    <div class="grid md:grid-cols-4 gap-4">
-                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                            <i class="fas fa-rocket text-2xl text-blue-600 mb-2"></i>
-                            <div class="font-semibold">Week 9</div>
-                            <div class="text-sm text-gray-600">Technical Fixes</div>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                            <i class="fas fa-bullhorn text-2xl text-green-600 mb-2"></i>
-                            <div class="font-semibold">Week 10</div>
-                            <div class="text-sm text-gray-600">Intensive Promotion</div>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                            <i class="fas fa-fire text-2xl text-orange-600 mb-2"></i>
-                            <div class="font-semibold">Week 11</div>
-                            <div class="text-sm text-gray-600">Maximum Push</div>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                            <i class="fas fa-trophy text-2xl text-purple-600 mb-2"></i>
-                            <div class="font-semibold">Week 12</div>
-                            <div class="text-sm text-gray-600">Event & Conversion</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+function generateWorkflowTips(appKey) {
+  const workflows = {
+    crm: ["تسجيل العملاء المحتملين", "توزيع العملاء حسب القطاع", "متابعة مراحل الصفقة", "إرسال عروض الأسعار", "تحليل الأداء"],
+    books: ["إصدار الفواتير", "ربط الحسابات البنكية", "إعداد تقارير مالية", "إدارة الضرائب", "مزامنة مع CRM"],
+    desk: ["استقبال التذاكر", "توزيع حسب الأولوية", "تتبع وقت الاستجابة", "إنشاء قاعدة معرفة", "تحليل رضا العملاء"],
+    inventory: ["إدارة المنتجات", "تتبع الطلبات", "تنبيهات نفاد المخزون", "ربط مع Books وCRM", "تحسين سلسلة التوريد"]
+  };
+  const tips = workflows[appKey];
+  if (!tips) return "";
+  return `\n\n**🔄 سير العمل المقترح لقسم ${appKey.toUpperCase()}**\n` + tips.map(t => `• ${t}`).join('\n');
+}
 
-            <!-- Week 9: Technical Foundation (Jan 15-21) -->
-            <div class="mb-16">
-                <div class="flex items-center mb-8">
-                    <div class="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center font-bold text-2xl mr-6">9</div>
-                    <div>
-                        <h4 class="text-2xl font-bold text-gray-900">Week 9: Technical Foundation & Funnel Fixes</h4>
-                        <p class="text-gray-600 text-lg">January 15-21, 2026 • Critical Infrastructure Deployment</p>
-                    </div>
-                </div>
-                
-                <div class="grid lg:grid-cols-2 gap-8 ml-20">
-                    <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg">
-                        <h5 class="font-semibold text-gray-900 mb-4 text-lg">
-                            <i class="fas fa-tools mr-3 text-blue-600"></i>Technical Deployment (Days 1-5)
-                        </h5>
-                        <ul class="space-y-3 text-gray-700">
-                            <li class="flex items-start">
-                                <i class="fas fa-clock text-blue-500 mr-3 mt-1 text-sm"></i>
-                                <span><strong>Day 1-2:</strong> Deploy "Premier First Step" landing page with urgency countdown</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-clock text-blue-500 mr-3 mt-1 text-sm"></i>
-                                <span><strong>Day 3:</strong> Install Meta Pixel + Google Analytics 4 + conversion tracking</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-clock text-blue-500 mr-3 mt-1 text-sm"></i>
-                                <span><strong>Day 4-5:</strong> Build Cairo Opera House registration with B2C/B2B segments</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-clock text-blue-500 mr-3 mt-1 text-sm"></i>
-                                <span><strong>Day 6:</strong> WhatsApp Business API integration for instant response</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-green-50 border-l-4 border-green-500 p-6 rounded-lg">
-                        <h5 class="font-semibold text-gray-900 mb-4 text-lg">
-                            <i class="fas fa-rocket mr-3 text-green-600"></i>Campaign Launch (Days 6-7)
-                        </h5>
-                        <ul class="space-y-3 text-gray-700">
-                            <li class="flex items-start">
-                                <i class="fas fa-play text-green-500 mr-3 mt-1 text-sm"></i>
-                                <span>Launch retargeting campaigns for website visitors (last 30 days)</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-play text-green-500 mr-3 mt-1 text-sm"></i>
-                                <span>Activate "Premier Circle" referral program intensive push</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-play text-green-500 mr-3 mt-1 text-sm"></i>
-                                <span>Begin daily countdown content for Opera House event</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-play text-green-500 mr-3 mt-1 text-sm"></i>
-                                <span>Soft-launch investor invitation for February 14 Session 2</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+function generatePricingInfo() {
+  return `**💰 الأسعار:**\n• CRM: 840–2520 جنيه\n• Books: 630–1890 جنيه\n• Desk: 560–2100 جنيه\n• Inventory: 700–2100 جنيه\n\n**Zoho One:** 4200 جنيه/مستخدم/شهر يشمل كل التطبيقات`;
+}
 
-            <!-- Week 10: Intensive Promotion (Jan 22-28) -->
-            <div class="mb-16">
-                <div class="flex items-center mb-8">
-                    <div class="bg-green-600 text-white w-16 h-16 rounded-full flex items-center justify-center font-bold text-2xl mr-6">10</div>
-                    <div>
-                        <h4 class="text-2xl font-bold text-gray-900">Week 10: Intensive Promotion & Lead Nurturing</h4>
-                        <p class="text-gray-600 text-lg">January 22-28, 2026 • Peak Awareness Campaign</p>
-                    </div>
-                </div>
-                
-                <div class="grid lg:grid-cols-2 gap-8 ml-20">
-                    <div class="bg-green-50 border-l-4 border-green-500 p-6 rounded-lg">
-                        <h5 class="font-semibold text-gray-900 mb-4 text-lg">
-                            <i class="fas fa-megaphone mr-3 text-green-600"></i>Paid Media Scale-Up
-                        </h5>
-                        <ul class="space-y-3 text-gray-700">
-                            <li class="flex items-start">
-                                <i class="fas fa-chart-line text-green-500 mr-3 mt-1 text-sm"></i>
-                                <span>Scale Facebook/Instagram ads to EGP 1,500/day targeting 15km radius</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-chart-line text-green-500 mr-3 mt-1 text-sm"></i>
-                                <span>Launch Google Search ads for "ballet classes Cairo" + "Cairo Opera House"</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-chart-line text-green-500 mr-3 mt-1 text-sm"></i>
-                                <span>Deploy video view campaigns featuring Ahmed + Anja credentials</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-chart-line text-green-500 mr-3 mt-1 text-sm"></i>
-                                <span>A/B test "Opera House Showcase" vs "Premier First Step" creative</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-purple-50 border-l-4 border-purple-500 p-6 rounded-lg">
-                        <h5 class="font-semibold text-gray-900 mb-4 text-lg">
-                            <i class="fas fa-users mr-3 text-purple-600"></i>Community Engagement
-                        </h5>
-                        <ul class="space-y-3 text-gray-700">
-                            <li class="flex items-start">
-                                <i class="fas fa-handshake text-purple-500 mr-3 mt-1 text-sm"></i>
-                                <span>Host "Professional Prep Day" at Maadi studio for trial conversions</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-handshake text-purple-500 mr-3 mt-1 text-sm"></i>
-                                <span>Activate international school partnerships (AIS, CAC, MES)</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-handshake text-purple-500 mr-3 mt-1 text-sm"></i>
-                                <span>Daily Instagram Stories featuring behind-the-scenes Opera House prep</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-handshake text-purple-500 mr-3 mt-1 text-sm"></i>
-                                <span>Launch parent testimonial video series (#MyPremierJourney)</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+function generateClosingTips() {
+  return `\n\n**📌 تذكير للبائع:**\nإذا لاحظت اهتمام من العميل — مثل طرح أسئلة أو طلب عرض — فهذا وقت الإغلاق.\n\n**💼 نصائح سريعة للإغلاق:**\n• اسأل: "هل يناسبكم هذا الحل؟"\n• قدم عرضاً محدوداً\n• استخدم قصص نجاح\n• أكد على الدعم\n• اطلب القرار: "هل نبدأ اليوم؟"`;
+}
 
-            <!-- Week 11: Maximum Push (Jan 29-Feb 4) -->
-            <div class="mb-16">
-                <div class="flex items-center mb-8">
-                    <div class="bg-orange-600 text-white w-16 h-16 rounded-full flex items-center justify-center font-bold text-2xl mr-6">11</div>
-                    <div>
-                        <h4 class="text-2xl font-bold text-gray-900">Week 11: Maximum Push & Urgency Activation</h4>
-                        <p class="text-gray-600 text-lg">January 29 - February 4, 2026 • Peak Intensity Phase</p>
-                    </div>
-                </div>
-                
-                <div class="grid lg:grid-cols-2 gap-8 ml-20">
-                    <div class="bg-orange-50 border-l-4 border-orange-500 p-6 rounded-lg">
-                        <h5 class="font-semibold text-gray-900 mb-4 text-lg">
-                            <i class="fas fa-fire mr-3 text-orange-600"></i>Peak Ad Spend & Retargeting
-                        </h5>
-                        <ul class="space-y-3 text-gray-700">
-                            <li class="flex items-start">
-                                <i class="fas fa-dollar-sign text-orange-500 mr-3 mt-1 text-sm"></i>
-                                <span>Maximum daily ad spend: EGP 2,500 across all channels</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-dollar-sign text-orange-500 mr-3 mt-1 text-sm"></i>
-                                <span>Retarget all website visitors with "Last 7 Days to Register" messaging</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-dollar-sign text-orange-500 mr-3 mt-1 text-sm"></i>
-                                <span>Lookalike audiences based on trial registrants (Meta + Google)</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-dollar-sign text-orange-500 mr-3 mt-1 text-sm"></i>
-                                <span>Launch "Founding Student" limited-time enrollment offer</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-lg">
-                        <h5 class="font-semibold text-gray-900 mb-4 text-lg">
-                            <i class="fas fa-exclamation-triangle mr-3 text-red-600"></i>Urgency & Scarcity Tactics
-                        </h5>
-                        <ul class="space-y-3 text-gray-700">
-                            <li class="flex items-start">
-                                <i class="fas fa-hourglass text-red-500 mr-3 mt-1 text-sm"></i>
-                                <span>Daily countdown posts: "X Days Until Cairo Opera House Showcase"</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-hourglass text-red-500 mr-3 mt-1 text-sm"></i>
-                                <span>Email sequence: "Limited Seats - Opera House Main Hall"</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-hourglass text-red-500 mr-3 mt-1 text-sm"></i>
-                                <span>WhatsApp broadcast: "Final Week - Premier First Step Expires"</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-hourglass text-red-500 mr-3 mt-1 text-sm"></i>
-                                <span>Student rehearsal live-streams showing Opera House preparation</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+// ==========================================
+// AI Response Logic
+// ==========================================
+async function getSimulatedResponse(question) {
+  await new Promise(resolve => setTimeout(resolve, 1500));
+  const q = question.toLowerCase();
+  let response = "";
 
-            <!-- Week 12: Event & Conversion (Feb 5-14) -->
-            <div class="mb-16">
-                <div class="flex items-center mb-8">
-                    <div class="bg-purple-600 text-white w-16 h-16 rounded-full flex items-center justify-center font-bold text-2xl mr-6">12</div>
-                    <div>
-                        <h4 class="text-2xl font-bold text-gray-900">Week 12: Cairo Opera House Event & Conversion Blitz</h4>
-                        <p class="text-gray-600 text-lg">February 5-14, 2026 • Event Execution & Enrollment Closure</p>
-                    </div>
-                </div>
-                
-                <div class="grid lg:grid-cols-2 gap-8 ml-20">
-                    <div class="bg-purple-50 border-l-4 border-purple-500 p-6 rounded-lg">
-                        <h5 class="font-semibold text-gray-900 mb-4 text-lg">
-                            <i class="fas fa-calendar-day mr-3 text-purple-600"></i>Event Week (Feb 10-14)
-                        </h5>
-                        <ul class="space-y-3 text-gray-700">
-                            <li class="flex items-start">
-                                <i class="fas fa-star text-purple-500 mr-3 mt-1 text-sm"></i>
-                                <span><strong>Feb 10-13:</strong> Daily behind-the-scenes content from Opera House</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-star text-purple-500 mr-3 mt-1 text-sm"></i>
-                                <span><strong>Feb 13:</strong> Final 24-hour enrollment push with limited spots</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-star text-purple-500 mr-3 mt-1 text-sm"></i>
-                                <span><strong>Feb 14:</strong> Cairo Opera House Showcase (7:00 PM)</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-star text-purple-500 mr-3 mt-1 text-sm"></i>
-                                <span><strong>Session 1:</strong> Parent showcase + live enrollment stations</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-star text-purple-500 mr-3 mt-1 text-sm"></i>
-                                <span><strong>Session 2:</strong> Investor pitch + expansion vision presentation</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-6 rounded-lg">
-                        <h5 class="font-semibold text-gray-900 mb-4 text-lg">
-                            <i class="fas fa-handshake mr-3 text-indigo-600"></i>Post-Event Conversion (Feb 15-21)
-                        </h5>
-                        <ul class="space-y-3 text-gray-700">
-                            <li class="flex items-start">
-                                <i class="fas fa-clock text-indigo-500 mr-3 mt-1 text-sm"></i>
-                                <span><strong>Same Night:</strong> Thank you email with exclusive enrollment offer</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-clock text-indigo-500 mr-3 mt-1 text-sm"></i>
-                                <span><strong>24 Hours:</strong> Personalized follow-up calls from Ahmed/Anja</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-clock text-indigo-500 mr-3 mt-1 text-sm"></i>
-                                <span><strong>48-72 Hours:</strong> WhatsApp personal messages to all attendees</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-clock text-indigo-500 mr-3 mt-1 text-sm"></i>
-                                <span><strong>Week After:</strong> Event highlight reel + testimonial collection</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  if (q.includes('crm') || q.includes('علاقات العملاء')) {
+    response = generateAppDetails('crm') + generateWorkflowTips('crm');
+  } else if (q.includes('books') || q.includes('محاسبة')) {
+    response = generateAppDetails('books') + generateWorkflowTips('books');
+  } else if (q.includes('desk') || q.includes('دعم العملاء')) {
+    response = generateAppDetails('desk') + generateWorkflowTips('desk');
+  } else if (q.includes('inventory') || q.includes('مخزون')) {
+    response = generateAppDetails('inventory') + generateWorkflowTips('inventory');
+  } else if (q.includes('سعر') || q.includes('price')) {
+    response = generatePricingInfo();
+  } else {
+    response = "شكراً لسؤالك! يمكنني مساعدتك في معرفة تفاصيل تطبيقات Zoho، الأسعار، الفوائد، وسير العمل حسب القسم.";
+  }
 
-    <!-- Detailed Activity Matrix -->
-    <section class="py-16 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Month 3: Detailed Activity Matrix</h2>
-            
-            <div class="bg-white p-8 rounded-xl shadow-lg overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b-2 border-gray-200">
-                            <th class="text-left py-4 px-6 font-bold text-gray-900">Activity ID</th>
-                            <th class="text-left py-4 px-6 font-bold text-gray-900">Category</th>
-                            <th class="text-left py-4 px-6 font-bold text-gray-900">Detailed Activity Plan (What & Platform)</th>
-                            <th class="text-left py-4 px-6 font-bold text-gray-900">Strategic Rationale (Why This Matters)</th>
-                            <th class="text-left py-4 px-6 font-bold text-gray-900">Success Metric/KPI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b border-gray-100 bg-red-50">
-                            <td class="py-4 px-6 font-semibold">1. SHOWCASE INTENSIVE PROMOTION</td>
-                            <td class="py-4 px-6"><span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">Event Climax</span></td>
-                            <td class="py-4 px-6">4-week countdown strategy with daily countdown graphics, social media takeovers, and segmented email campaigns. All copy emphasizes dual B2C/B2B nature and founder Cairo Opera credentials. Platform: Instagram Stories, Facebook, Email, WhatsApp.</td>
-                            <td class="py-4 px-6">To achieve 75%+ registration-to-attendance conversion by leveraging urgency and institutional prestige of Cairo Opera House Main Hall.</td>
-                            <td class="py-4 px-6 font-semibold text-red-600">Cost per Registration: TBC<br>Target: 150-200 attendees</td>
-                        </tr>
-                        <tr class="border-b border-gray-100 bg-blue-50">
-                            <td class="py-4 px-6 font-semibold">2. FINAL PAID AD PUSH</td>
-                            <td class="py-4 px-6"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Conversion Ads</span></td>
-                            <td class="py-4 px-6">Deploy maximum paid ad budget (TBC) for weeks 11-12. Focus: Retargeting campaigns (website visitors, video viewers) + hyper-local targeting (15km radius Maadi/New Cairo). Platform: Meta, Google Ads.</td>
-                            <td class="py-4 px-6">Convert lingering "warm" leads into event attendees and trial bookings before February 14 deadline. Industry benchmark: $12 CPA achievable.</td>
-                            <td class="py-4 px-6 font-semibold text-blue-600">Retargeting CVR: >5%<br>CPA: <EGP 400</td>
-                        </tr>
-                        <tr class="border-b border-gray-100 bg-green-50">
-                            <td class="py-4 px-6 font-semibold">3. URGENCY & INCENTIVES</td>
-                            <td class="py-4 px-6"><span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Conversion Tactics</span></td>
-                            <td class="py-4 px-6">Limited-time enrollment offers: "Founding Student" status with early-bird pricing expiry February 21. Clear CTAs to segmented registration forms (B2C parent/B2B investor). Platform: All channels.</td>
-                            <td class="py-4 px-6">Create immediate action and overcome final barrier to enrollment, justifying academy's premium positioning through exclusivity.</td>
-                            <td class="py-4 px-6 font-semibold text-green-600">Enrollment Target: 25+<br>Conversion window: <48hrs</td>
-                        </tr>
-                        <tr class="border-b border-gray-100 bg-purple-50">
-                            <td class="py-4 px-6 font-semibold">4. PREMIER CIRCLE PUSH</td>
-                            <td class="py-4 px-6"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">Referral Acceleration</span></td>
-                            <td class="py-4 px-6">Final promotional push for "Premier Circle" Referral Program. WhatsApp reminders to current families + leverage event excitement for referral prompts. Incentive: TBC discount for successful referrals.</td>
-                            <td class="py-4 px-6">Referral programs deliver 3-5x higher conversion rates (15% I-A benchmark) and are low-cost, community-driven acquisition engines.</td>
-                            <td class="py-4 px-6 font-semibold text-purple-600">Referral Usage: >40%<br>Current family participation</td>
-                        </tr>
-                        <tr class="border-b border-gray-100 bg-yellow-50">
-                            <td class="py-4 px-6 font-semibold">5. INVESTOR INVITATION & PITCH</td>
-                            <td class="py-4 px-6"><span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">B2B Strategy</span></td>
-                            <td class="py-4 px-6">Final outreach for Session 2 (B2B Vision Presentation). Formal invitation delivery, pre-meeting calls from Ahmed, financial pitch deck preparation (financials TBC). Target: MENA expansion investors.</td>
-                            <td class="py-4 px-6">Secure 5-7 serious investor discussions and close Sales Initiated Leads (SILs), demonstrating scalability potential for regional expansion.</td>
-                            <td class="py-4 px-6 font-semibold text-yellow-600">Investor Attendance: 30-40<br>Follow-up meetings: 5-7</td>
-                        </tr>
-                        <tr class="border-b border-gray-100 bg-pink-50">
-                            <td class="py-4 px-6 font-semibold">6. EVENT EXECUTION DAY</td>
-                            <td class="py-4 px-6"><span class="bg-pink-100 text-pink-800 px-2 py-1 rounded text-xs">Climax Logistics</span></td>
-                            <td class="py-4 px-6">February 14 execution: Check-in procedures, Session 1 (Parent Showcase) with live enrollment stations, Session 2 (Investor Pitch) professional reception. Cairo Opera House Main Hall venue.</td>
-                            <td class="py-4 px-6">Deliver seamless, high-prestige experience validating all marketing claims and maximize both B2C and B2B conversions in real-time.</td>
-                            <td class="py-4 px-6 font-semibold text-pink-600">Session 1: 150-200 attendees<br>Live enrollments: 15+</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+  response += generateClosingTips();
+  return response;
+}
 
-            <!-- Post-Campaign Follow-Up Table -->
-            <div class="mt-12 bg-white p-8 rounded-xl shadow-lg overflow-x-auto">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6">Post-Campaign: Immediate Follow-Up & Momentum</h3>
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b-2 border-gray-200">
-                            <th class="text-left py-4 px-6 font-bold text-gray-900">Activity ID</th>
-                            <th class="text-left py-4 px-6 font-bold text-gray-900">Category</th>
-                            <th class="text-left py-4 px-6 font-bold text-gray-900">Detailed Activity Plan (What & Platform)</th>
-                            <th class="text-left py-4 px-6 font-bold text-gray-900">Strategic Rationale (Why This Matters)</th>
-                            <th class="text-left py-4 px-6 font-bold text-gray-900">Success Metric/KPI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b border-gray-100 bg-green-50">
-                            <td class="py-4 px-6 font-semibold">7. B2C FOLLOW-UP BLITZ</td>
-                            <td class="py-4 px-6"><span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Conversion Closure</span></td>
-                            <td class="py-4 px-6">Immediate (same-night) and 24-hour follow-up campaigns. Thank you email to Session 1 attendees with exclusive limited-time enrollment offer (price TBC). Personal calls from Ahmed/Anja within 48 hours.</td>
-                            <td class="py-4 px-6">Most event-to-enrollment conversions happen within 48-72 hours; rapid follow-up prevents leads from cooling. Target 60-80% trial conversion rate.</td>
-                            <td class="py-4 px-6 font-semibold text-green-600">Additional Enrollments: 10+<br>Within 7 days post-event</td>
-                        </tr>
-                        <tr class="border-b border-gray-100 bg-blue-50">
-                            <td class="py-4 px-6 font-semibold">8. B2B FOLLOW-UP & NEXT STEPS</td>
-                            <td class="py-4 px-6"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Investor Closure</span></td>
-                            <td class="py-4 px-6">Personalized 24-hour follow-up from Ahmed/Anja to Session 2 investors, requesting specific follow-up meetings. Share digital investor packet and track record data.</td>
-                            <td class="py-4 px-6">Move investors immediately into due diligence phase and secure necessary funding for MENA expansion plans.</td>
-                            <td class="py-4 px-6 font-semibold text-blue-600">Follow-up Meetings: 5-7<br>Serious prospects scheduled</td>
-                        </tr>
-                        <tr class="border-b border-gray-100 bg-purple-50">
-                            <td class="py-4 px-6 font-semibold">9. CONTENT REPURPOSING</td>
-                            <td class="py-4 px-6"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">Momentum Maintenance</span></td>
-                            <td class="py-4 px-6">Create Showcase Highlight Reel (90 seconds, emotional music) and post-event testimonial collection (student/parent excitement). Platform: Instagram, Facebook, YouTube.</td>
-                            <td class="py-4 px-6">Maintain brand momentum, provide fresh content for ongoing enrollment campaigns, and generate powerful social proof from prestige event.</td>
-                            <td class="py-4 px-6 font-semibold text-purple-600">Highlight Reel Views: 10,000+<br>In 7 days post-event</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
+// ==========================================
+// Chat Rendering
+// ==========================================
+function addMessage(text, sender) {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `message message-${sender}`;
+  const time = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+  messageDiv.innerHTML = `<div>${text.replace(/\n/g, '<br>')}</div><div class="message-time">${time}</div>`;
+  chatMessages.appendChild(messageDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
 
-    <!-- KPI Dashboard -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Phase 3: Real-Time KPI Dashboard</h2>
-            
-            <!-- Top-Line Metrics -->
-            <div class="grid lg:grid-cols-4 gap-8 mb-12">
-                <div class="metric-card bg-gradient-to-br from-blue-500 to-blue-600 text-white p-8 rounded-xl shadow-lg">
-                    <div class="text-center">
-                        <i class="fas fa-users text-4xl mb-4 opacity-80"></i>
-                        <div class="text-4xl font-bold mb-2">75+</div>
-                        <div class="text-lg opacity-90 mb-2">Qualified Leads</div>
-                        <div class="text-sm bg-white bg-opacity-20 px-3 py-1 rounded-full">31% organic I-A benchmark</div>
-                    </div>
-                </div>
-                <div class="metric-card bg-gradient-to-br from-green-500 to-green-600 text-white p-8 rounded-xl shadow-lg">
-                    <div class="text-center">
-                        <i class="fas fa-user-graduate text-4xl mb-4 opacity-80"></i>
-                        <div class="text-4xl font-bold mb-2">45+</div>
-                        <div class="text-lg opacity-90 mb-2">Trial Bookings</div>
-                        <div class="text-sm bg-white bg-opacity-20 px-3 py-1 rounded-full">60-80% conversion target</div>
-                    </div>
-                </div>
-                <div class="metric-card bg-gradient-to-br from-purple-500 to-purple-600 text-white p-8 rounded-xl shadow-lg">
-                    <div class="text-center">
-                        <i class="fas fa-handshake text-4xl mb-4 opacity-80"></i>
-                        <div class="text-4xl font-bold mb-2">25+</div>
-                        <div class="text-lg opacity-90 mb-2">Paid Enrollments</div>
-                        <div class="text-sm bg-white bg-opacity-20 px-3 py-1 rounded-full">56% trial-to-paid needed</div>
-                    </div>
-                </div>
-                <div class="metric-card bg-gradient-to-br from-orange-500 to-orange-600 text-white p-8 rounded-xl shadow-lg">
-                    <div class="text-center">
-                        <i class="fas fa-chart-line text-4xl mb-4 opacity-80"></i>
-                        <div class="text-4xl font-bold mb-2">5:1</div>
-                        <div class="text-lg opacity-90 mb-2">Marketing ROI</div>
-                        <div class="text-sm bg-white bg-opacity-20 px-3 py-1 rounded-full">EGP 370 CPA target</div>
-                    </div>
-                </div>
-            </div>
+// ==========================================
+// Send Message
+// ==========================================
+sendBtn.addEventListener('click', handleSend);
+chatInput.addEventListener('keypress', e => { if (e.key === 'Enter') handleSend(); });
 
-            <!-- Weekly Progression Tracking -->
-            <div class="kpi-dashboard p-8 rounded-xl mb-12">
-                <h3 class="text-2xl font-semibold text-gray-900 mb-8 text-center">4-Week Performance Progression</h3>
-                <div class="chart-container">
-                    <canvas id="weeklyProgressChart"></canvas>
-                </div>
-            </div>
+async function handleSend() {
+  const message = chatInput.value.trim();
+  if (!message) return;
+  addMessage(message, 'user');
+  chatInput.value = '';
+  loadingOverlay.style.display = 'flex';
+  try {
+    const reply = await getSimulatedResponse(message);
+    addMessage(reply, 'ai');
+  } catch (err) {
+    addMessage('حدث خطأ، حاول مرة أخرى.', 'ai');
+  } finally {
+    loadingOverlay.style.display = 'none';
+  }
+}
 
-            <!-- Critical Conversion Funnel -->
-            <div class="bg-white p-8 rounded-xl shadow-lg border-l-4 border-indigo-500">
-                <h3 class="text-2xl font-semibold text-gray-900 mb-8">Critical Conversion Funnel Analysis</h3>
-                <div class="grid lg:grid-cols-5 gap-6">
-                    <div class="text-center">
-                        <div class="bg-blue-100 p-6 rounded-lg mb-4">
-                            <i class="fas fa-eye text-3xl text-blue-600 mb-2"></i>
-                            <div class="text-2xl font-bold text-blue-600">4,000+</div>
-                        </div>
-                        <div class="font-semibold">Website Visitors</div>
-                        <div class="text-sm text-gray-600">Week 12 Target</div>
-                    </div>
-                    <div class="flex items-center justify-center">
-                        <i class="fas fa-arrow-right text-2xl text-gray-400"></i>
-                    </div>
-                    <div class="text-center">
-                        <div class="bg-green-100 p-6 rounded-lg mb-4">
-                            <i class="fas fa-hand-pointer text-3xl text-green-600 mb-2"></i>
-                            <div class="text-2xl font-bold text-green-600">75+</div>
-                        </div>
-                        <div class="font-semibold">Qualified Leads</div>
-                        <div class="text-sm text-gray-600">31% organic conversion</div>
-                    </div>
-                    <div class="flex items-center justify-center">
-                        <i class="fas fa-arrow-right text-2xl text-gray-400"></i>
-                    </div>
-                    <div class="text-center">
-                        <div class="bg-purple-100 p-6 rounded-lg mb-4">
-                            <i class="fas fa-graduation-cap text-3xl text-purple-600 mb-2"></i>
-                            <div class="text-2xl font-bold text-purple-600">25+</div>
-                        </div>
-                        <div class="font-semibold">Paid Enrollments</div>
-                        <div class="text-sm text-gray-600">60-80% trial conversion</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Risk Management & Contingencies -->
-    <section class="py-16 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Risk Management & Contingency Plans</h2>
-            
-            <div class="grid lg:grid-cols-3 gap-8 mb-12">
-                <!-- High Risk Scenarios -->
-                <div class="bg-white p-8 rounded-xl shadow-lg border-l-4 border-red-500">
-                    <h3 class="text-2xl font-semibold text-red-800 mb-6">
-                        <i class="fas fa-exclamation-triangle mr-3"></i>High Risk Scenarios
-                    </h3>
-                    <div class="space-y-6">
-                        <div class="bg-red-50 p-6 rounded-lg border border-red-200">
-                            <h4 class="font-bold text-red-800 mb-3">Technical Implementation Delays</h4>
-                            <p class="text-red-700 text-sm mb-3">Landing pages, pixels, or registration forms not deployed by January 20th</p>
-                            <div class="bg-red-100 p-3 rounded">
-                                <p class="text-red-600 text-xs font-semibold">Action Plan:</p>
-                                <ul class="text-red-600 text-xs mt-2 space-y-1">
-                                    <li>• Emergency developer resource allocation</li>
-                                    <li>• Use existing forms with manual tracking</li>
-                                    <li>• Delay ad spend until tracking is live</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-red-50 p-6 rounded-lg border border-red-200">
-                            <h4 class="font-bold text-red-800 mb-3">Low Initial Response Rate</h4>
-                            <p class="text-red-700 text-sm mb-3">Lead generation <50% of target by Week 10</p>
-                            <div class="bg-red-100 p-3 rounded">
-                                <p class="text-red-600 text-xs font-semibold">Action Plan:</p>
-                                <ul class="text-red-600 text-xs mt-2 space-y-1">
-                                    <li>• Double daily ad spend to EGP 3,000</li>
-                                    <li>• Emergency referral incentive program</li>
-                                    <li>• Direct outreach to warm leads database</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-red-50 p-6 rounded-lg border border-red-200">
-                            <h4 class="font-bold text-red-800 mb-3">Opera House Venue Issues</h4>
-                            <p class="text-red-700 text-sm mb-3">Last-minute cancellation or restriction</p>
-                            <div class="bg-red-100 p-3 rounded">
-                                <p class="text-red-600 text-xs font-semibold">Action Plan:</p>
-                                <ul class="text-red-600 text-xs mt-2 space-y-1">
-                                    <li>• Backup venue: Four Seasons Nile Plaza</li>
-                                    <li>• Pivot messaging to "Exclusive Private Event"</li>
-                                    <li>• Maintain premium positioning narrative</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Medium Risk Scenarios -->
-                <div class="bg-white p-8 rounded-xl shadow-lg border-l-4 border-yellow-500">
-                    <h3 class="text-2xl font-semibold text-yellow-800 mb-6">
-                        <i class="fas fa-exclamation-circle mr-3"></i>Medium Risk Scenarios
-                    </h3>
-                    <div class="space-y-6">
-                        <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-200">
-                            <h4 class="font-bold text-yellow-800 mb-3">Budget Overrun</h4>
-                            <p class="text-yellow-700 text-sm mb-3">Ad costs exceed planned allocation by >30%</p>
-                            <div class="bg-yellow-100 p-3 rounded">
-                                <p class="text-yellow-600 text-xs font-semibold">Action Plan:</p>
-                                <ul class="text-yellow-600 text-xs mt-2 space-y-1">
-                                    <li>• Pause lowest-performing campaigns</li>
-                                    <li>• Shift to organic + referral focus</li>
-                                    <li>• Negotiate extended payment terms</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-200">
-                            <h4 class="font-bold text-yellow-800 mb-3">Content Production Delays</h4>
-                            <p class="text-yellow-700 text-sm mb-3">Video content behind schedule for Week 11</p>
-                            <div class="bg-yellow-100 p-3 rounded">
-                                <p class="text-yellow-600 text-xs font-semibold">Action Plan:</p>
-                                <ul class="text-yellow-600 text-xs mt-2 space-y-1">
-                                    <li>• Pivot to live Instagram Stories</li>
-                                    <li>• Use user-generated content</li>
-                                    <li>• Repurpose existing footage creatively</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-200">
-                            <h4 class="font-bold text-yellow-800 mb-3">Competitor Response</h4>
-                            <p class="text-yellow-700 text-sm mb-3">Major competitor launches similar campaign</p>
-                            <div class="bg-yellow-100 p-3 rounded">
-                                <p class="text-yellow-600 text-xs font-semibold">Action Plan:</p>
-                                <ul class="text-yellow-600 text-xs mt-2 space-y-1">
-                                    <li>• Emphasize unique Cairo Opera credentials</li>
-                                    <li>• Accelerate exclusivity messaging</li>
-                                    <li>• Launch limited-time founder offers</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Success Insurance -->
-                <div class="bg-white p-8 rounded-xl shadow-lg border-l-4 border-green-500">
-                    <h3 class="text-2xl font-semibold text-green-800 mb-6">
-                        <i class="fas fa-shield-alt mr-3"></i>Success Insurance Plans
-                    </h3>
-                    <div class="space-y-6">
-                        <div class="bg-green-50 p-6 rounded-lg border border-green-200">
-                            <h4 class="font-bold text-green-800 mb-3">Over-Performance Plan</h4>
-                            <p class="text-green-700 text-sm mb-3">Demand exceeds capacity (>50 enrollments)</p>
-                            <div class="bg-green-100 p-3 rounded">
-                                <p class="text-green-600 text-xs font-semibold">Action Plan:</p>
-                                <ul class="text-green-600 text-xs mt-2 space-y-1">
-                                    <li>• Implement premium pricing tiers</li>
-                                    <li>• Create VIP waitlist system</li>
-                                    <li>• Accelerate second location planning</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-green-50 p-6 rounded-lg border border-green-200">
-                            <h4 class="font-bold text-green-800 mb-3">Media Attention Management</h4>
-                            <p class="text-green-700 text-sm mb-3">Unexpected press coverage or viral content</p>
-                            <div class="bg-green-100 p-3 rounded">
-                                <p class="text-green-600 text-xs font-semibold">Action Plan:</p>
-                                <ul class="text-green-600 text-xs mt-2 space-y-1">
-                                    <li>• Pre-prepared founder interview materials</li>
-                                    <li>• Crisis communication protocols</li>
-                                    <li>• Rapid website capacity scaling</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-green-50 p-6 rounded-lg border border-green-200">
-                            <h4 class="font-bold text-green-800 mb-3">Investor Interest Surge</h4>
-                            <p class="text-green-700 text-sm mb-3">High investor demand for Session 2</p>
-                            <div class="bg-green-100 p-3 rounded">
-                                <p class="text-green-600 text-xs font-semibold">Action Plan:</p>
-                                <ul class="text-green-600 text-xs mt-2 space-y-1">
-                                    <li>• Implement investor pre-qualification</li>
-                                    <li>• Create tiered investment packages</li>
-                                    <li>• Schedule additional investor sessions</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Risk Assessment Matrix -->
-            <div class="bg-white p-8 rounded-xl shadow-lg">
-                <h3 class="text-2xl font-semibold text-gray-900 mb-8 text-center">Risk Assessment Matrix</h3>
-                <div class="chart-container">
-                    <canvas id="riskMatrix"></canvas>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Implementation Checklist -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Phase 3 Implementation Checklist</h2>
-            
-            <div class="grid lg:grid-cols-2 gap-12">
-                <!-- Week 9 Checklist -->
-                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-xl border border-blue-200">
-                    <h3 class="text-2xl font-semibold text-blue-900 mb-8">
-                        <i class="fas fa-rocket mr-3"></i>Week 9: Technical Foundation (Jan 15-21)
-                    </h3>
-                    <div class="space-y-4">
-                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                            <h4 class="font-semibold mb-3 text-gray-900">Critical Path Items (Days 1-3)</h4>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Deploy "Premier First Step" landing page with conversion form</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Add urgency countdown timer (expires Feb 21)</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Install Meta Pixel + Google Analytics 4 + conversion tracking</span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                            <h4 class="font-semibold mb-3 text-gray-900">Event Registration (Days 4-5)</h4>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Build Cairo Opera House registration page</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Create B2C parent form (Session 1: 7:00 PM)</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Create B2B investor form (Session 2: 8:30 PM)</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Integrate WhatsApp Business API for instant confirmation</span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                            <h4 class="font-semibold mb-3 text-gray-900">Campaign Launch (Days 6-7)</h4>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Launch retargeting audiences (website visitors, video viewers)</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Begin daily countdown content campaign</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Activate "Premier Circle" referral program push</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Weeks 10-12 Checklist -->
-                <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-xl border border-green-200">
-                    <h3 class="text-2xl font-semibold text-green-900 mb-8">
-                        <i class="fas fa-fire mr-3"></i>Weeks 10-12: Intensive Campaign (Jan 22-Feb 14)
-                    </h3>
-                    <div class="space-y-4">
-                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                            <h4 class="font-semibold mb-3 text-gray-900">Week 10: Scale-Up Phase</h4>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Scale Facebook/Instagram ads to EGP 1,500/day</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Launch Google Search ads for ballet + opera house keywords</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Host "Professional Prep Day" at Maadi studio</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Activate international school partnerships</span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                            <h4 class="font-semibold mb-3 text-gray-900">Week 11: Maximum Push</h4>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Maximum ad spend: EGP 2,500/day across all channels</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Launch "Founding Student" limited enrollment offer</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Daily urgent countdown posts + email sequences</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Student rehearsal live-streams from Opera House</span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                            <h4 class="font-semibold mb-3 text-gray-900">Week 12: Event Execution</h4>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Final 24-hour enrollment push (Feb 13)</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Execute Cairo Opera House Showcase (Feb 14)</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">Same-night follow-up email campaign</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-3 w-4 h-4">
-                                    <span class="text-sm text-gray-700">24-48 hour personal follow-up calls</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Success Criteria -->
-            <div class="mt-16 bg-gradient-to-r from-purple-50 to-pink-50 p-12 rounded-xl border border-purple-200">
-                <h3 class="text-3xl font-bold text-purple-900 mb-8 text-center">
-                    <i class="fas fa-trophy mr-4"></i>Phase 3 Success Criteria
-                </h3>
-                <div class="grid lg:grid-cols-3 gap-8">
-                    <div class="text-center">
-                        <div class="bg-white p-8 rounded-xl shadow-lg">
-                            <i class="fas fa-users text-5xl text-purple-600 mb-6"></i>
-                            <h4 class="text-xl font-bold text-gray-900 mb-4">Lead Generation Excellence</h4>
-                            <p class="text-3xl font-bold text-purple-600 mb-3">75+</p>
-                            <p class="text-gray-600 mb-4">Qualified prospects with genuine enrollment interest</p>
-                            <div class="bg-purple-100 p-3 rounded-lg">
-                                <p class="text-purple-800 text-sm font-semibold">Benchmark: 31% organic I-A conversion rate</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <div class="bg-white p-8 rounded-xl shadow-lg">
-                            <i class="fas fa-graduation-cap text-5xl text-green-600 mb-6"></i>
-                            <h4 class="text-xl font-bold text-gray-900 mb-4">Enrollment Conversion</h4>
-                            <p class="text-3xl font-bold text-green-600 mb-3">25+</p>
-                            <p class="text-gray-600 mb-4">Confirmed paid enrollments for new term</p>
-                            <div class="bg-green-100 p-3 rounded-lg">
-                                <p class="text-green-800 text-sm font-semibold">Benchmark: 60-80% trial-to-paid with <24hr follow-up</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <div class="bg-white p-8 rounded-xl shadow-lg">
-                            <i class="fas fa-chart-line text-5xl text-blue-600 mb-6"></i>
-                            <h4 class="text-xl font-bold text-gray-900 mb-4">Marketing ROI Achievement</h4>
-                            <p class="text-3xl font-bold text-blue-600 mb-3">5:1</p>
-                            <p class="text-gray-600 mb-4">Return on total marketing investment</p>
-                            <div class="bg-blue-100 p-3 rounded-lg">
-                                <p class="text-blue-800 text-sm font-semibold">Benchmark: EGP 370 CPA (performing arts standard)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Conclusion -->
-    <footer class="gradient-bg text-white py-16">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <div class="mb-8">
-                <i class="fas fa-chess-queen text-6xl opacity-80 mb-6"></i>
-                <h2 class="text-4xl font-bold mb-6">Ready for Cairo Opera House Showcase Success</h2>
-                <p class="text-2xl opacity-90 mb-8">This data-driven Phase 3 roadmap positions Premier Ballet Academy to achieve its 25+ enrollment target through validated industry benchmarks and critical funnel optimizations.</p>
-            </div>
-            
-            <div class="grid lg:grid-cols-3 gap-8 mb-12">
-                <div class="bg-white bg-opacity-10 p-8 rounded-xl backdrop-blur-sm">
-                    <i class="fas fa-bullseye text-4xl mb-6"></i>
-                    <h3 class="text-xl font-semibold mb-4">Data-Driven Precision</h3>
-                    <p class="opacity-90">Every KPI validated against performing arts industry benchmarks for realistic goal-setting</p>
-                </div>
-                <div class="bg-white bg-opacity-10 p-8 rounded-xl backdrop-blur-sm">
-                    <i class="fas fa-crown text-4xl mb-6"></i>
-                    <h3 class="text-xl font-semibold mb-4">Cairo Opera House Authority</h3>
-                    <p class="opacity-90">Leveraging founders' institutional credibility for maximum conversion impact</p>
-                </div>
-                <div class="bg-white bg-opacity-10 p-8 rounded-xl backdrop-blur-sm">
-                    <i class="fas fa-rocket text-4xl mb-6"></i>
-                    <h3 class="text-xl font-semibold mb-4">Immediate Action Plan</h3>
-                    <p class="opacity-90">Critical technical fixes must be deployed by January 20th to salvage timeline</p>
-                </div>
-            </div>
-            
-            <!-- Final Call-to-Action -->
-            <div class="bg-white bg-opacity-20 p-8 rounded-xl backdrop-blur-sm">
-                <h3 class="text-2xl font-bold mb-4">Critical Success Factors</h3>
-                <div class="grid md:grid-cols-4 gap-4 text-sm">
-                    <div class="bg-white bg-opacity-20 p-4 rounded-lg">
-                        <div class="font-bold">Week 9</div>
-                        <div>Deploy technical infrastructure</div>
-                    </div>
-                    <div class="bg-white bg-opacity-20 p-4 rounded-lg">
-                        <div class="font-bold">Week 10</div>
-                        <div>Scale paid advertising campaigns</div>
-                    </div>
-                    <div class="bg-white bg-opacity-20 p-4 rounded-lg">
-                        <div class="font-bold">Week 11</div>
-                        <div>Maximum push with urgency tactics</div>
-                    </div>
-                    <div class="bg-white bg-opacity-20 p-4 rounded-lg">
-                        <div class="font-bold">Week 12</div>
-                        <div>Event execution & conversion</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mt-12 pt-8 border-t border-white border-opacity-20">
-                <p class="opacity-75">Phase 3 Execution Roadmap - November 2025</p>
-                <p class="text-sm opacity-60 mt-2">This strategic analysis incorporates validated performing arts industry benchmarks, PBA website audit findings, and proven conversion optimization tactics.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Benchmark Comparison Chart
-        const benchmarkCtx = document.getElementById('benchmarkChart').getContext('2d');
-        new Chart(benchmarkCtx, {
-            type: 'radar',
-            data: {
-                labels: ['Cost Per Acquisition', 'Trial Conversion Rate', 'Inquiry-to-Application', 'Event Attendance', 'ROI Performance', 'Retention Rate'],
-                datasets: [{
-                    label: 'Industry Benchmark',
-                    data: [70, 75, 65, 70, 60, 76],
-                    borderColor: 'rgba(107, 114, 128, 1)',
-                    backgroundColor: 'rgba(107, 114, 128, 0.2)',
-                    borderWidth: 2
-                }, {
-                    label: 'PBA Target Performance',
-                    data: [85, 90, 80, 85, 90, 85],
-                    borderColor: 'rgba(99, 102, 241, 1)',
-                    backgroundColor: 'rgba(99, 102, 241, 0.2)',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    r: {
-                        beginAtZero: true,
-                        max: 100,
-                        ticks: {
-                            stepSize: 20
-                        }
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'PBA Performance vs Industry Benchmarks (%)'
-                    }
-                }
-            }
-        });
-
-        // Weekly Progress Chart
-        const weeklyCtx = document.getElementById('weeklyProgressChart').getContext('2d');
-        new Chart(weeklyCtx, {
-            type: 'line',
-            data: {
-                labels: ['Week 9', 'Week 10', 'Week 11', 'Week 12', 'Week 13 (Follow-up)'],
-                datasets: [{
-                    label: 'Qualified Leads (Cumulative)',
-                    data: [15, 35, 60, 75, 80],
-                    borderColor: 'rgba(59, 130, 246, 1)',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    tension: 0.4
-                }, {
-                    label: 'Trial Bookings (Cumulative)',
-                    data: [8, 18, 35, 45, 48],
-                    borderColor: 'rgba(34, 197, 94, 1)',
-                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                    tension: 0.4
-                }, {
-                    label: 'Paid Enrollments (Cumulative)',
-                    data: [3, 8, 18, 25, 32],
-                    borderColor: 'rgba(168, 85, 247, 1)',
-                    backgroundColor: 'rgba(168, 85, 247, 0.1)',
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Cumulative Count'
-                        }
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Phase 3: 4-Week Performance Progression'
-                    }
-                }
-            }
-        });
-
-        // Risk Assessment Matrix
-        const riskCtx = document.getElementById('riskMatrix').getContext('2d');
-        new Chart(riskCtx, {
-            type: 'scatter',
-            data: {
-                datasets: [{
-                    label: 'High Risk',
-                    data: [
-                        {x: 80, y: 85, label: 'Technical Delays'},
-                        {x: 70, y: 80, label: 'Low Response Rate'},
-                        {x: 60, y: 90, label: 'Venue Issues'}
-                    ],
-                    backgroundColor: 'rgba(239, 68, 68, 0.8)',
-                    borderColor: 'rgba(239, 68, 68, 1)',
-                    pointRadius: 8
-                }, {
-                    label: 'Medium Risk',
-                    data: [
-                        {x: 50, y: 60, label: 'Budget Overrun'},
-                        {x: 40, y: 50, label: 'Content Delays'},
-                        {x: 45, y: 55, label: 'Competitor Response'}
-                    ],
-                    backgroundColor: 'rgba(251, 191, 36, 0.8)',
-                    borderColor: 'rgba(251, 191, 36, 1)',
-                    pointRadius: 6
-                }, {
-                    label: 'Low Risk',
-                    data: [
-                        {x: 20, y: 30, label: 'Over-Performance'},
-                        {x: 25, y: 35, label: 'Media Attention'},
-                        {x: 15, y: 25, label: 'Investor Surge'}
-                    ],
-                    backgroundColor: 'rgba(34, 197, 94, 0.8)',
-                    borderColor: 'rgba(34, 197, 94, 1)',
-                    pointRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Probability (%)'
-                        },
-                        min: 0,
-                        max: 100
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Impact (%)'
-                        },
-                        min: 0,
-                        max: 100
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Risk Assessment: Probability vs Impact'
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.dataset.data[context.dataIndex].label + 
-                                       ' (P:' + context.parsed.x + '%, I:' + context.parsed.y + '%)';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    </script>
+// ==========================================
+// Quick Questions Handler
+// ==========================================
+function askQuickQuestion(type) {
+  const questions = {
+    'CRM': 'أريد معرفة المزيد عن نظام CRM',
+    'Books': 'أحتاج معلومات عن برنامج المحاسبة',
+    'Desk': 'أريد تفاصيل عن نظام دعم العملاء',
+    'Inventory': 'أحتاج معلومات عن إدارة المخزون',
+    'الأسعار': 'ما هي أسعار تطبيقات Zoho؟'
+  };
+  
+  const question = questions[type];
+  if (question) {
+    chatInput.value = question;
+    handleSend();
+  }
+}
+</script>
 </body>
 </html>
